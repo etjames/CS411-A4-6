@@ -1,0 +1,8 @@
+Group A4-6
+User Story 2
+
+2) As a logged-in user, I should be able to click and view different cities. Once logged in a user can either enter a 
+city of interest into a search bar on the top left or view it on the map, which they are able to navigate using the mouse.
+When the user begins typing a city of interest, the search bar will help auto-fill the city-name in a drop-down from the 
+search bar. The user can then select this city and the map will travel to be centered on this city. If the city cannot be
+found, the drop-down will say “City not found”. 
