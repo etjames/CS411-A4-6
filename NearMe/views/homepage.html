@@ -3,19 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-</head>
-<body>
-<div class="searchpage">
-    <input type="text" style="height:75px; width:175px" placeholder="Search Tweets">
-    <input type="submit">
-</div>
-<style>
-    .searchpage {
-        float: center;
-        color: black;
-        text-align: center;
-        font-size: 30px;
+    <style>
+.searchpage {
+    float: center;
+    display: block;
+    color: black;
+    text-align: center;
+    align: center;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+}
+body {
+    background-image: url(/Users/Chy/Documents/rainbow.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 400px;
+    height: 400px;
+}
+
+
+h1 {
+    color: DodgerBlue;
+    font-family: "Apple Chancery", cursive;
+}
+
+.button {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
     }
 </style>
+</head>
+<div class="searchpage">
+  <h1>Tweets</h1>
+  <input type="text" style="height:50px; width:175px; font-size:22px; text-align: center" placeholder="Search Tweets">
+  <button class="button">Go!</button>
+</div>
+<body>
 </body>
 </html>
