@@ -1,0 +1,46 @@
+<div class="searchpage">
+    <h1>SEARCH NEWS API</h1>
+    <form action="/" method="post">
+    <input type="text" name = "title" id="myValue" style="height:50px; width:190px; font-size:22px; text-align: center" placeholder="Search Wikipedia">
+    <button onclick="Function()" class="button">Go</button>
+    </form>
+  </div>
+  <body>
+  <script>
+    function Function() {
+        let values = document.getElementById("myValue").value;
+    }
+  </script>
+                
+
+  </body>
+  <style>
+  .searchpage {
+      display: block;
+      color: black;
+      text-align: center;
+      position: absolute;
+      top: 40%;
+      left: 35%;
+  }
+  body {
+      background-image: url(/Users/Chy/Documents/rainbow.jpg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      width: 400px;
+      height: 400px;
+  }
+  
+  
+  h1 {
+      color: rgb(61, 180, 235);
+      font-family: cursive;
+  }
+  
+  .button {
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      }
+  </style>
