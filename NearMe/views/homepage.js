@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
 
 app.get('/', function (req, res) {
-  const homepagePath = (path.join(__dirname , '../views' ,'testpage.ejs'));
+  const homepagePath = (path.join(__dirname , '../views' ,'homepage.ejs'));
   res.render(homepagePath);
 })
 
