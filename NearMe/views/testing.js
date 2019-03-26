@@ -1,5 +1,6 @@
 let express = require('express');
 let bodyParser = require('body-parser');
+let path = require('path');
 let request = require('request');
 let app = express();
 
@@ -8,12 +9,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
 
 app.get('/', function (req, res) {
-  res.render('homepage');
+  const homepagePath = (path.join(__dirname , '../views' ,'testpage.ejs'));
+  res.render(homepagePath);
 })
 
 app.post('/', function (req, res) {
-  let tweet = req.body.title;
-  let url = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=' + article;
+  let news = req.body.title;
+  let url = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page=' + news;
   
   request(url,{json:true},(err,res,body)=>{
     if(err){
@@ -38,4 +40,4 @@ app.post('/', function (req, res) {
 
 app.listen(3000, () => console.log('Server ready'))
 
-module.exports = router;
+// module.exports = router;
