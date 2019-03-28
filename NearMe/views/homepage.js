@@ -21,30 +21,6 @@ app.post('/', function (req, res) {
   let news = req.body.searchField;
   let url = 'https://newsapi.org/v2/everything?q=' + news + '&from=2019-02-28' +  '&apiKey=70edd79e9171414db7e92ceef59dab1b';
 
-
-  /*
-    var myCallback = function(data) {
-        console.log('got data: '+data);
-    };
-    var usingItNow = function(callback) {
-        callback('get it?');
-    };
-    usingItNow(myCallback);
-    */
-
-    /*
-   request(url,{json:true},(error , response, body)=>{
-    if(error){
-        return console.log(error);
-    } else {
-        //console.log("resbody is : " + re);
-        return body.articles;
-    }
-    console.log("this is working!");
-  })
-  */
-
-
     const getAPICall = util.promisify(request);
 
     getAPICall(url).then(data => {
