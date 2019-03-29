@@ -7,3 +7,7 @@
 # node modules #
 ######################
 node_modules/
+
+
+# our api keys #
+config.js
