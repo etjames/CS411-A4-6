@@ -4,6 +4,13 @@ let path = require('path');
 let request = require('request');
 const util = require('util');
 
+//for reading config file
+const fs = require('fs');
+const configPath = (path.join(__dirname , '../config' ,'config.json'));
+const rawdata = fs.readFileSync(configPath);
+const api_json = JSON.parse(rawdata);
+const news_api_key = api_json['api-keys']['News-Api-Key'];
+
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +26,7 @@ app.get('/', function (req, res) {
 //for responding to query, calls news api and puts callback into query.ejs
 app.post('/', function (req, res) {
   let news = req.body.searchField;
-  let url = 'https://newsapi.org/v2/everything?q=' + news + '&from=2019-02-28' +  '&apiKey=70edd79e9171414db7e92ceef59dab1b';
+  let url = 'https://newsapi.org/v2/everything?q=' + news + '&from=2019-02-28' +  '&apiKey=' + news_api_key;
   console.log(global.gConfig);
     const getAPICall = util.promisify(request);
 
@@ -28,7 +35,7 @@ app.post('/', function (req, res) {
         //console.log(("joke: ", content.articles));
         //res.render(content.articles);
         const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-        //console.log(content.articles);
+        console.log(content.articles);
         res.render(queryPath, {
            name: 'News API Results' ,
             title1: content.articles[0].title,
