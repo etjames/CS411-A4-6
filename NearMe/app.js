@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const config = require('./config/config.json');
+const apiConfigs = config["api-keys"];
+global.gConfig = apiConfigs;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -37,5 +41,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//from the slides
+var serverParams = require('config.js')('./config/config.json');
+app.set('serverParams', serverParams.server);
+
+//set up encryption key for sessions
+app.use(session({secret: serverParams.server.sessionSecret}));
 
 module.exports = app;
