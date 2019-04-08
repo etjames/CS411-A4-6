@@ -78,11 +78,11 @@ app.post('/', function (req, res) {
             url: content.articles[0].url
         }, function(error, response) {
             if (error === null) {
-                Object.keys(response.entities).forEach(function(e) {
                     const foundKeyWords = response.entities['keyword'];
                     db_print(foundKeyWords);
                     let keywordsString = "";
                     const arrayLength = foundKeyWords.length;
+                    db_print(arrayLength);
                     for (let i = 0; i < arrayLength; i++) {
                         if(i != arrayLength-1) {
                         keywordsString += foundKeyWords[i] + ", ";
@@ -92,8 +92,7 @@ app.post('/', function (req, res) {
                         }
                     }
 
-        //must fix multi-render 7 times error still
-        //reference: https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client
+
                     const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
 
                     res.render(queryPath, {
@@ -102,8 +101,6 @@ app.post('/', function (req, res) {
                         description1: content.articles[0].description,
                         keywords1: keywordsString
                     });
-
-                });
             }
         });
 
