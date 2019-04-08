@@ -9,23 +9,29 @@ const fs = require('fs');
 const configPath = (path.join(__dirname , '../config' ,'config.json'));
 const rawdata = fs.readFileSync(configPath);
 const api_json = JSON.parse(rawdata);
+
+//for news api
 const news_api_key = api_json['api-keys']['News-Api-Key'];
 
 //for using the ayien api
 const AYLIENTextAPI = require('aylien_textapi');
 const aylien_id = api_json['api-keys']['Aylien-Id'];
 const aylien_key = api_json['api-keys']['Aylien-key'];
-var textapi = new AYLIENTextAPI({
+const textapi = new AYLIENTextAPI({
     application_id: aylien_id,
     application_key: aylien_key
 })
+
+//for twitter api
+const twitter_key  = api_json['api-keys']['Twitter-Api-Key'];
+const twitter_secret_key = api_json['api-keys']['Twitter-Secret-Key'];
+
 
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs')
-
 
 //for turning on/off printing easily
 const debug = true;
@@ -34,7 +40,6 @@ function db_print(text) {
         console.log(text);
     }
 }
-
 
 //for displaying homepage
 app.get('/', function (req, res) {
@@ -63,16 +68,9 @@ app.post('/', function (req, res) {
         let content = JSON.parse(data.body);
         db_print(content.articles);
 
-        const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-        res.render(queryPath, {
-           name: 'News API Results' ,
-            title1: content.articles[0].title,
-            description1: content.articles[0].description,
-            title2: content.articles[1].title,
-            description2: content.articles[1].description,
-            title3: content.articles[2].title,
-            description3: content.articles[2].description
-        });
+
+        //// OLD RENDER FUNCTION WAS HERE (MOVED BELOW) ////
+
         //now we use the aylien api to get keywords
         db_print("Using aylien api now...");
 
@@ -83,6 +81,28 @@ app.post('/', function (req, res) {
                 Object.keys(response.entities).forEach(function(e) {
                     const foundKeyWords = response.entities['keyword'];
                     db_print(foundKeyWords);
+                    let keywordsString = "";
+                    const arrayLength = foundKeyWords.length;
+                    for (let i = 0; i < arrayLength; i++) {
+                        if(i != arrayLength-1) {
+                        keywordsString += foundKeyWords[i] + ", ";
+                        }
+                        else {
+                            keywordsString += foundKeyWords[i];
+                        }
+                    }
+
+        //must fix multi-render 7 times error still
+        //reference: https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client
+                    const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
+
+                    res.render(queryPath, {
+                        name: 'News API Results' ,
+                        title1: content.articles[0].title,
+                        description1: content.articles[0].description,
+                        keywords1: keywordsString
+                    });
+
                 });
             }
         });
