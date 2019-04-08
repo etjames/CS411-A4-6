@@ -11,6 +11,15 @@ const rawdata = fs.readFileSync(configPath);
 const api_json = JSON.parse(rawdata);
 const news_api_key = api_json['api-keys']['News-Api-Key'];
 
+//for using the ayien api
+const AYLIENTextAPI = require('aylien_textapi');
+const aylien_id = api_json['api-keys']['Aylien-Id'];
+const aylien_key = api_json['api-keys']['Aylien-key'];
+var textapi = new AYLIENTextAPI({
+    application_id: aylien_id,
+    application_key: aylien_key
+})
+
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -66,6 +75,17 @@ app.post('/', function (req, res) {
         });
         //now we use the aylien api to get keywords
         db_print("Using aylien api now...");
+
+        textapi.entities({
+            url: content.articles[0].url
+        }, function(error, response) {
+            if (error === null) {
+                Object.keys(response.entities).forEach(function(e) {
+                    const foundKeyWords = response.entities['keyword'];
+                    db_print(foundKeyWords);
+                });
+            }
+        });
 
   }).catch(err => console.log('error: ' , err))
 
