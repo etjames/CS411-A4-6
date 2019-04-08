@@ -17,6 +17,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs')
 
+
+//for turning on/off printing easily
+const debug = true;
+function db_print(text) {
+    if(debug) {
+        console.log(text);
+    }
+}
+
+
 //for displaying homepage
 app.get('/', function (req, res) {
   const homepagePath = (path.join(__dirname , '../views' ,'homepage.ejs'));
@@ -27,26 +37,24 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
 
   //get user input
-  const news = req.body.searchField;
+  const newsSearch = req.body.searchField;
 
   //get date
   const date = new Date();
   const year = date.getFullYear();
   const day = date.getDate();
   const month = date.getMonth();
-  //console.log("Today is " + year + "-" + month  + "-" + day);
+  db_print("Today is " + year + "-" + month  + "-" + day);
 
-  let url = 'https://newsapi.org/v2/everything?q=' + news +
+  let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
       '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
-  console.log(global.gConfig);
-    const getAPICall = util.promisify(request);
+  const getNewsAPICall = util.promisify(request);
 
-    getAPICall(url).then(data => {
+    getNewsAPICall(newsURL).then(data => {
         let content = JSON.parse(data.body);
-        //console.log(("joke: ", content.articles));
-        //res.render(content.articles);
+        db_print(content.articles);
+
         const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-        console.log(content.articles);
         res.render(queryPath, {
            name: 'News API Results' ,
             title1: content.articles[0].title,
@@ -56,8 +64,10 @@ app.post('/', function (req, res) {
             title3: content.articles[2].title,
             description3: content.articles[2].description
         });
+        //now we use the aylien api to get keywords
+        db_print("Using aylien api now...");
 
-    }).catch(err => console.log('error: ' , err))
+  }).catch(err => console.log('error: ' , err))
 
 })
 

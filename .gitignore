@@ -12,3 +12,4 @@ node_modules/
 # our api keys #
 config.js
 config.json
+NearMe/config/config.json
