@@ -25,8 +25,19 @@ app.get('/', function (req, res) {
 
 //for responding to query, calls news api and puts callback into query.ejs
 app.post('/', function (req, res) {
-  let news = req.body.searchField;
-  let url = 'https://newsapi.org/v2/everything?q=' + news + '&from=2019-02-28' +  '&apiKey=' + news_api_key;
+
+  //get user input
+  const news = req.body.searchField;
+
+  //get date
+  const date = new Date();
+  const year = date.getFullYear();
+  const day = date.getDate();
+  const month = date.getMonth();
+  //console.log("Today is " + year + "-" + month  + "-" + day);
+
+  let url = 'https://newsapi.org/v2/everything?q=' + news +
+      '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
   console.log(global.gConfig);
     const getAPICall = util.promisify(request);
 
