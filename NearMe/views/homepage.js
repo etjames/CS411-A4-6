@@ -83,17 +83,23 @@ app.post('/', function (req, res) {
         }, function(error, response) {
             if (error === null) {
                     const foundKeyWords = response.entities['keyword'];
+
+                    db_print(response.entities);
                     db_print(foundKeyWords);
                     let keywordsString = "";
-                    const arrayLength = foundKeyWords.length;
-                    db_print(arrayLength);
-                    for (let i = 0; i < arrayLength; i++) {
-                        if(i != arrayLength-1) {
-                        keywordsString += foundKeyWords[i] + ", ";
+                    if (foundKeyWords != undefined) {
+                        const arrayLength = foundKeyWords.length;
+                        db_print(arrayLength);
+                        for (let i = 0; i < arrayLength; i++) {
+                            if (i != arrayLength - 1) {
+                                keywordsString += foundKeyWords[i] + ", ";
+                            } else {
+                                keywordsString += foundKeyWords[i];
+                            }
                         }
-                        else {
-                            keywordsString += foundKeyWords[i];
-                        }
+                    }
+                    else{
+                        keywordsString = "";
                     }
 
 
