@@ -19,7 +19,7 @@ const aylien_id = api_json['api-keys']['Aylien-Id'];
 const aylien_key = api_json['api-keys']['Aylien-key'];
 const textapi = new AYLIENTextAPI({
     application_id: aylien_id,
-    application_key: aylien_key
+    application_key: aylien_key 
 })
 
 //for twitter api
