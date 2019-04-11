@@ -49,11 +49,6 @@ app.get('/', function (req, res) {
 
 //for responding to query, calls news api and puts callback into query.ejs
 app.post('/', function (req, res) {
-  let news = req.body.searchField;
-  let url = 'https://newsapi.org/v2/everything?q=' + news + '&from=2019-03-9' +  '&apiKey=70edd79e9171414db7e92ceef59dab1b';
-  console.log(global.gConfig);
-    const getAPICall = util.promisify(request);
-
   //get user input
   const newsSearch = req.body.searchField;
 
@@ -83,17 +78,23 @@ app.post('/', function (req, res) {
         }, function(error, response) {
             if (error === null) {
                     const foundKeyWords = response.entities['keyword'];
+
+                    db_print(response.entities);
                     db_print(foundKeyWords);
                     let keywordsString = "";
-                    const arrayLength = foundKeyWords.length;
-                    db_print(arrayLength);
-                    for (let i = 0; i < arrayLength; i++) {
-                        if(i != arrayLength-1) {
-                        keywordsString += foundKeyWords[i] + ", ";
+                    if (foundKeyWords != undefined) {
+                        const arrayLength = foundKeyWords.length;
+                        db_print(arrayLength);
+                        for (let i = 0; i < arrayLength; i++) {
+                            if (i != arrayLength - 1) {
+                                keywordsString += foundKeyWords[i] + ", ";
+                            } else {
+                                keywordsString += foundKeyWords[i];
+                            }
                         }
-                        else {
-                            keywordsString += foundKeyWords[i];
-                        }
+                    }
+                    else{
+                        keywordsString = "";
                     }
 
 
