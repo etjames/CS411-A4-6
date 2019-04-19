@@ -151,7 +151,7 @@ app.post('/', function (req, res) {
                         name: 'News API Results' ,
                         title1: content.articles[0].title,
                         description1: content.articles[0].description,
-                        keywords1: keywordsString,
+                        keywords1: twitterQuery2,
                         tweets1: listToString(tweetResults)
                     });
                 });
