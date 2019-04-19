@@ -56,16 +56,17 @@ app.post('/', function (req, res) {
   const date = new Date();
   const year = date.getFullYear();
   const day = date.getDate();
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   db_print("Today is " + year + "-" + month  + "-" + day);
 
   let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
       '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
+  db_print(newsURL);
   const getNewsAPICall = util.promisify(request);
 
     getNewsAPICall(newsURL).then(data => {
         let content = JSON.parse(data.body);
-        db_print(content.articles);
+        db_print(content);
 
 
         //// OLD RENDER FUNCTION WAS HERE (MOVED BELOW) ////
