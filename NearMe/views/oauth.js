@@ -159,6 +159,15 @@ app.post('/', function async(req, res) {
   let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
       '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
 
+  let threeApiResults = {
+      articleName: String,
+      articleDescription: String,
+      tweetResults: String
+  }
+
+
+  let allArticleResults = []; //of type threeApiResults
+
   const getNewsAPICall = util.promisify(request);
 
   getNewsAPICall(newsURL).then(data => {
@@ -170,80 +179,87 @@ app.post('/', function async(req, res) {
 
       //we actually want to loop through some x number of articles:
       const DISPLAY_ARTICLE_COUNT = 1;
-      let tweetResults = [];
-      for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
-      //the below is just our test of the aylien api
-      textapi.entities({
-          url: content.articles[0].url
-      }, function(error, response) {
-          if (error === null) {
-                  const foundKeyWords = response.entities['keyword'];
 
-                  db_print(response.entities);
-                  //db_print(foundKeyWords);
-                  let keywordsString = "";
-                  if (foundKeyWords != undefined) {
-                      const arrayLength = foundKeyWords.length;
-                      db_print(arrayLength);
-                      for (let i = 0; i < arrayLength; i++) {
-                          if (i != arrayLength - 1) {
-                            keywordsString += foundKeyWords[i] + ", ";
-                          } else {
-                              keywordsString += foundKeyWords[i];
+      for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
+          //the below is just our test of the aylien api
+          textapi.entities({
+              url: content.articles[0].url
+          }, function(error, response) {
+              if (error === null) {
+                      const foundKeyWords = response.entities['keyword'];
+
+                      db_print(response.entities);
+                      //db_print(foundKeyWords);
+                      let keywordsString = "";
+                      if (foundKeyWords != undefined) {
+                          const arrayLength = foundKeyWords.length;
+                          db_print(arrayLength);
+                          for (let i = 0; i < arrayLength; i++) {
+                              if (i != arrayLength - 1) {
+                                keywordsString += foundKeyWords[i] + ", ";
+                              } else {
+                                  keywordsString += foundKeyWords[i];
+                              }
                           }
                       }
-                  }
-                  else{
-                      keywordsString = "";
-                  }
-
-                  //now we create our own twitter search String
-                  //it will be composed of the first response from each of the following sub-divisions
-                  // 1) location 2) organization 3) person 4) keywords
-                  let twitterQuery1 = "" + newsSearch + ", "; //we start with just the city
-                  let twitterQuery2 = "" + newsSearch + ", "; //this one will not have any keywords
-                  if (response.entities != undefined) {
-                      if(response.entities['organization'] != undefined) {
-                          twitterQuery1 += response.entities['organization'][0] + ", ";
-                          twitterQuery2 += response.entities['organization'][0] + ", ";
+                      else{
+                          keywordsString = "";
                       }
-                      if(response.entities['person'] != undefined) {
-                          twitterQuery1 += response.entities['person'][0] + ", ";
-                          twitterQuery2 += response.entities['person'][0];
+
+                      //now we create our own twitter search String
+                      //it will be composed of the first response from each of the following sub-divisions
+                      // 1) location 2) organization 3) person 4) keywords
+                      let twitterQuery1 = "" + newsSearch + ", "; //we start with just the city
+                      let twitterQuery2 = "" + newsSearch + ", "; //this one will not have any keywords
+                      if (response.entities != undefined) {
+                          if(response.entities['organization'] != undefined) {
+                              twitterQuery1 += response.entities['organization'][0] + ", ";
+                              twitterQuery2 += response.entities['organization'][0] + ", ";
+                          }
+                          if(response.entities['person'] != undefined) {
+                              twitterQuery1 += response.entities['person'][0] + ", ";
+                              twitterQuery2 += response.entities['person'][0];
+                          }
+                          if(response.entities['keyword'] != undefined) {
+                              twitterQuery1 += response.entities['keyword'][0];
+                          }
+                          db_print("twitterQuery1 is: " + twitterQuery1);
+                          db_print("twitterQuery2 is: " + twitterQuery2);
                       }
-                      if(response.entities['keyword'] != undefined) {
-                          twitterQuery1 += response.entities['keyword'][0];
-                      }
-                      db_print("twitterQuery1 is: " + twitterQuery1);
-                      db_print("twitterQuery2 is: " + twitterQuery2);
-                  }
 
-                  //now we try to get a twitter call
+                      //now we try to get a twitter call
 
-                  twitterClient.get('search/tweets', {q: twitterQuery2}, function(error, tweets, response) {
-                    let tweetsList = tweets['statuses'];
+                      twitterClient.get('search/tweets', {q: twitterQuery2}, function async(error, tweets, response) {
+                          let tweetsList = tweets['statuses'];
+                          let tweetResults = [];
+                          for(let tweetIndex in tweetsList) {
+                              let tweetText = tweetsList[tweetIndex]['text'];
+                              //console.log("tweetText: " + tweetText);
+                              tweetResults.push(tweetText);
+                          }
 
-                  for(let tweetIndex in tweetsList) {
-                      let tweetText = tweetsList[tweetIndex]['text'];
-                      //console.log("tweetText: " + tweetText);
-                      tweetResults.push(tweetText);
-                  }
-                  db_print("The twitter results are: " + tweetResults);
-                  const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
 
-                  res.render(queryPath, {
-                      name: 'News API Results' ,
-                      title1: content.articles[0].title,
-                      description1: content.articles[0].description,
-                      tweets1: listToString(tweetResults)
-                  });
+                          let curArticleResult = {
+                              articleName: content.articles[articleCount].title,
+                              articleDescription: content.articles[articleCount].description,
+                              tweetResults: tweetResults
+                          }
 
-              });
-          }
-      });
+                          db_print("The twitter results are: " + tweetResults);
+                          const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
 
+                          res.render(queryPath, {
+                              name: 'News API Results' ,
+                              title1: content.articles[0].title,
+                              description1: content.articles[0].description,
+                              tweets1: listToString(tweetResults)
+                          }); //end of res.render
+
+                  }); //end of twitter api
+              }
+          }); //end of aylien api
       }
-
+      db_print("For loop ended inside news api ended");
 
   }).catch(err => console.log('error: ' , err))
 

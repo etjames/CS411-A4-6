@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9fccd03f-b637-4546-ac35-f68d0e963e19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/oauth.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/oauth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/query.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/query.ejs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -76,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/oauth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="234" column="32" selection-start-line="234" selection-start-column="32" selection-end-line="234" selection-end-column="32" />
+            <state relative-caret-position="274">
+              <caret line="254" column="65" lean-forward="true" selection-start-line="254" selection-start-column="65" selection-end-line="254" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -229,7 +225,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32799000" />
+    <option name="totallyTimeSpent" value="33606000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="56" y="23" width="1224" height="777" extended-state="6" />
@@ -326,8 +322,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/oauth.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="234" column="32" selection-start-line="234" selection-start-column="32" selection-end-line="234" selection-end-column="32" />
+        <state relative-caret-position="274">
+          <caret line="254" column="65" lean-forward="true" selection-start-line="254" selection-start-column="65" selection-end-line="254" selection-end-column="65" />
         </state>
       </provider>
     </entry>
