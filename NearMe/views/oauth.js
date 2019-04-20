@@ -5,7 +5,13 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session');
 
+let bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 let mongoose = require('mongoose');
+//const mongo = require('mongodb').MongoClient
+
+//const url = 'mongodb://localhost:27017'
 
 mongoose.connect('mongodb://localhost:27017/nearme', {useNewUrlParser: true}, function(err, db) {
     if (err) {
@@ -16,9 +22,20 @@ const connection = mongoose.connection;
 
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
-});
+}); 
 
+/*
+mongo.connect(url, (err, client) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    //...
+  });
 
+  const db = client.db('nearme');
+
+  const collection = db.collection('usercollection') */
 
 auth(passport);
 app.use(passport.initialize());
@@ -45,8 +62,13 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
     console.log(req.session.token)
+    let name = req.body.searchField
+    console.log(name);
+    //console.log('req.body.name', req.body['name']);
     if (req.session.token) {
         res.redirect('./homepage');
+        //res.redirect('https://www.googleapis.com/oauth2/v1/userinfo?alt=json');
+
        // res.cookie('token', '');
         //res.json({
           //  status: 'session cookie set'
@@ -83,7 +105,7 @@ app.get('/auth/google/redirect',
 
 //HOMEPAGE.JS 
 
-let bodyParser = require('body-parser');
+//let bodyParser = require('body-parser');
 let path = require('path');
 let request = require('request');
 let util = require('util');
@@ -118,7 +140,7 @@ let twitterClient = new Twitter({
 
 
 
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs')
 
