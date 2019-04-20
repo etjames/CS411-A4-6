@@ -167,7 +167,7 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function (req, res) {
+app.post('/', function async(req, res) {
   //get user input
   const newsSearch = req.body.searchField;
 
@@ -180,92 +180,115 @@ app.post('/', function (req, res) {
 
   let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
       '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
-  db_print(newsURL);
+
+  let threeApiResults = {
+      articleName: String,
+      articleDescription: String,
+      tweetResults: String
+  }
+
+
+    //we will store the articles/tweets here:
+  let allArticleResults = {
+      article: {
+
+      }
+  }; //of type threeApiResults
+
   const getNewsAPICall = util.promisify(request);
 
-    getNewsAPICall(newsURL).then(data => {
-        let content = JSON.parse(data.body);
-        db_print(content);
+  getNewsAPICall(newsURL).then(data => {
+      let content = JSON.parse(data.body);
+      //db_print(content); //these are the articles
 
+      //now we use the aylien api to get keywords
+      db_print("Using aylien api now...");
 
-        //// OLD RENDER FUNCTION WAS HERE (MOVED BELOW) ////
+      //we actually want to loop through some x number of articles:
+      const DISPLAY_ARTICLE_COUNT = 3;
 
-        //now we use the aylien api to get keywords
-        db_print("Using aylien api now...");
+      for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
+          textapi.entities({
+              url: content.articles[articleCount].url
+          }, function async(error, response) {
+              if (error === null) {
+                      const foundKeyWords = response.entities['keyword'];
 
-        //the below is just our test of the aylien api
-        textapi.entities({
-            url: content.articles[0].url
-        }, function(error, response) {
-            if (error === null) {
-                    const foundKeyWords = response.entities['keyword'];
-
-                    db_print(response.entities);
-                    //db_print(foundKeyWords);
-                    let keywordsString = "";
-                    if (foundKeyWords != undefined) {
-                        const arrayLength = foundKeyWords.length;
-                        db_print(arrayLength);
-                        for (let i = 0; i < arrayLength; i++) {
-                            if (i != arrayLength - 1) {
+                      //db_print(response.entities);
+                      //db_print(foundKeyWords);
+                      let keywordsString = "";
+                      if (foundKeyWords != undefined) {
+                          const arrayLength = foundKeyWords.length;
+                          //db_print(arrayLength);
+                          for (let i = 0; i < arrayLength; i++) {
+                              if (i != arrayLength - 1) {
                                 keywordsString += foundKeyWords[i] + ", ";
-                            } else {
-                                keywordsString += foundKeyWords[i];
+                              } else {
+                                  keywordsString += foundKeyWords[i];
+                              }
+                          }
+                      }
+                      else{
+                          keywordsString = "";
+                      }
+
+                      //now we create our own twitter search String
+                      //it will be composed of the first response from each of the following sub-divisions
+                      // 1) location 2) organization 3) person 4) keywords
+                      let twitterQuery1 = "" + newsSearch + ", "; //we start with just the city
+                      let twitterQuery2 = "" + newsSearch + ", "; //this one will not have any keywords
+                      if (response.entities != undefined) {
+                          if(response.entities['organization'] != undefined) {
+                              twitterQuery1 += response.entities['organization'][0] + ", ";
+                              twitterQuery2 += response.entities['organization'][0] + ", ";
+                          }
+                          if(response.entities['person'] != undefined) {
+                              twitterQuery1 += response.entities['person'][0] + ", ";
+                              twitterQuery2 += response.entities['person'][0];
+                          }
+                          if(response.entities['keyword'] != undefined) {
+                              twitterQuery1 += response.entities['keyword'][0];
+                          }
+                          //db_print("twitterQuery1 is: " + twitterQuery1);
+                          db_print("twitterQuery2 is: " + twitterQuery2);
+                      }
+
+                      //now we try to get a twitter call
+
+                      twitterClient.get('search/tweets', {q: twitterQuery2}, function async(error, tweets, response) {
+                          let tweetsList = tweets['statuses'];
+                          let tweetResults = [];
+                          for(let tweetIndex in tweetsList) {
+                              let tweetText = tweetsList[tweetIndex]['text'];
+                              //console.log("tweetText: " + tweetText);
+                              tweetResults.push(tweetText);
+                          }
+
+
+                          let curArticleResult = {
+                              articleName: content.articles[articleCount].title,
+                              articleDescription: content.articles[articleCount].description,
+                              tweetResults: listToString(tweetResults)
+                          }
+                          db_print("The twitter results are: " + tweetResults);
+
+                          allArticleResults.article[articleCount] = curArticleResult;
+                          console.log(allArticleResults);
+                            //now we render
+
+                            if(articleCount+1 == DISPLAY_ARTICLE_COUNT) {
+                                const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
+                                res.render(queryPath, allArticleResults); //end of res.render
                             }
-                        }
-                    }
-                    else{
-                        keywordsString = "";
-                    }
-                    //now we create our own twitter search String
-                    //it will be composed of the first response from each of the following sub-divisions
-                    // 1) location 2) organization 3) person 4) keywords
-                    let twitterQuery1 = "" + newsSearch + ", "; //we start with just the city
-                    let twitterQuery2 = "" + newsSearch + ", "; //this one will not have any keywords
-                    if (response.entities != undefined) {
-                        if(response.entities['organization'] != undefined) {
-                            twitterQuery1 += response.entities['organization'][0] + ", ";
-                            twitterQuery2 += response.entities['organization'][0] + ", ";
-                        }
-                        if(response.entities['person'] != undefined) {
-                            twitterQuery1 += response.entities['person'][0] + ", ";
-                            twitterQuery2 += response.entities['person'][0];
-                        }
-                        if(response.entities['keyword'] != undefined) {
-                            twitterQuery1 += response.entities['keyword'][0];
-                        }
-                        db_print("twitterQuery1 is: " + twitterQuery1);
-                        db_print("twitterQuery2 is: " + twitterQuery2);
-                    }
-
-                    //now we try to get a twitter call
-                let tweetResults = [];
-                twitterClient.get('search/tweets', {q: twitterQuery2}, function(error, tweets, response) {
-                    let tweetsList = tweets['statuses'];
-
-                    for(let tweetIndex in tweetsList) {
-                        let tweetText = tweetsList[tweetIndex]['text'];
-                        //console.log("tweetText: " + tweetText);
-                        tweetResults.push(tweetText);
-                    }
-                    db_print("The twitter results are: " + tweetResults);
-
-                    const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-
-                    res.render(queryPath, {
-                        name: 'News API Results' ,
-                        title1: content.articles[0].title,
-                        description1: content.articles[0].description,
-                        keywords1: twitterQuery2,
-                        tweets1: listToString(tweetResults)
-                    });
-                });
-            }
-        });
+                  }); //end of twitter api
+              }
+          }); //end of aylien api
+      }
+      db_print("For loop ended inside news api ended");
 
   }).catch(err => console.log('error: ' , err))
 
-})
+}) //end of app.post
 
 
 app.listen(3000, () => {
