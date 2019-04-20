@@ -166,34 +166,38 @@ app.post('/', function async(req, res) {
   }
 
 
-  let allArticleResults = []; //of type threeApiResults
+    //we will store the articles/tweets here:
+  let allArticleResults = {
+      article: {
+
+      }
+  }; //of type threeApiResults
 
   const getNewsAPICall = util.promisify(request);
 
   getNewsAPICall(newsURL).then(data => {
       let content = JSON.parse(data.body);
-      db_print(content); //these are the articles
+      //db_print(content); //these are the articles
 
       //now we use the aylien api to get keywords
       db_print("Using aylien api now...");
 
       //we actually want to loop through some x number of articles:
-      const DISPLAY_ARTICLE_COUNT = 1;
+      const DISPLAY_ARTICLE_COUNT = 3;
 
       for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
-          //the below is just our test of the aylien api
           textapi.entities({
-              url: content.articles[0].url
-          }, function(error, response) {
+              url: content.articles[articleCount].url
+          }, function async(error, response) {
               if (error === null) {
                       const foundKeyWords = response.entities['keyword'];
 
-                      db_print(response.entities);
+                      //db_print(response.entities);
                       //db_print(foundKeyWords);
                       let keywordsString = "";
                       if (foundKeyWords != undefined) {
                           const arrayLength = foundKeyWords.length;
-                          db_print(arrayLength);
+                          //db_print(arrayLength);
                           for (let i = 0; i < arrayLength; i++) {
                               if (i != arrayLength - 1) {
                                 keywordsString += foundKeyWords[i] + ", ";
@@ -223,7 +227,7 @@ app.post('/', function async(req, res) {
                           if(response.entities['keyword'] != undefined) {
                               twitterQuery1 += response.entities['keyword'][0];
                           }
-                          db_print("twitterQuery1 is: " + twitterQuery1);
+                          //db_print("twitterQuery1 is: " + twitterQuery1);
                           db_print("twitterQuery2 is: " + twitterQuery2);
                       }
 
@@ -242,19 +246,18 @@ app.post('/', function async(req, res) {
                           let curArticleResult = {
                               articleName: content.articles[articleCount].title,
                               articleDescription: content.articles[articleCount].description,
-                              tweetResults: tweetResults
+                              tweetResults: listToString(tweetResults)
                           }
-
                           db_print("The twitter results are: " + tweetResults);
-                          const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
 
-                          res.render(queryPath, {
-                              name: 'News API Results' ,
-                              title1: content.articles[0].title,
-                              description1: content.articles[0].description,
-                              tweets1: listToString(tweetResults)
-                          }); //end of res.render
+                          allArticleResults.article[articleCount] = curArticleResult;
+                          console.log(allArticleResults);
+                            //now we render
 
+                            if(articleCount+1 == DISPLAY_ARTICLE_COUNT) {
+                                const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
+                                res.render(queryPath, allArticleResults); //end of res.render
+                            }
                   }); //end of twitter api
               }
           }); //end of aylien api
