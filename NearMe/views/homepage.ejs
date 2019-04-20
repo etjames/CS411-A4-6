@@ -1,10 +1,10 @@
-
+<a href="/logout">Logout</a>
 
 <div class="homepage testpage">
     <h1>SEARCH NEWS API</h1>
     <form action="/" method="post">
     <input type="text" name ="searchField" style="height:50px; width:190px; font-size:22px; text-align: center" placeholder="Search News">
-    <button onclick="Function()" class="button">Go</button>
+    <button class="myButton">Go</button>
     </form>
   </div>
   <body> 
@@ -23,7 +23,7 @@
     transform: translate(-50%, -50%);
   }
   body {
-      background-image: url("https://data.whicdn.com/images/101350221/large.jpg");
+      background-image: linear-gradient(#00C9FF, #92FE9D);
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
@@ -34,12 +34,47 @@
   
   h1 {
       color: rgb(61, 180, 235);
-      font-family: cursive;
+      font: 60px "Arial";
   }
   
-  .button {
-      border-radius: 50%;
-      height: 50px;
-      width: 50px;
-      }
+    .myButton {
+        -moz-box-shadow: 0px 8px 26px -1px #276873;
+        -webkit-box-shadow: 0px 8px 26px -1px #276873;
+        box-shadow: 0px 8px 26px -1px #276873;
+       
+        background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
+        background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
+        background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
+        background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
+        background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+        background-color:#599bb3;
+        -moz-border-radius:27px;
+        -webkit-border-radius:27px;
+        border-radius:27px;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:19px;
+        font-weight:bold;
+        padding:12px 28px;
+        text-decoration:none;
+        text-shadow:0px 0px 50px #3d768a;
+    }
+    .myButton:hover {
+        
+        background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
+        background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
+        background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
+        background:-ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
+        background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
+        background-color:#408c99;
+    }
+    .myButton:active {
+        position:relative;
+        top:1px;
+    }
+    
   </style>
