@@ -19,6 +19,7 @@
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^2.0.0",
     "pug": "^2.0.3",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "twitter": "^1.7.1"
   }
 }
