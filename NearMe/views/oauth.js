@@ -274,11 +274,16 @@ app.post('/', function async(req, res) {
 
                           allArticleResults.article[articleCount] = curArticleResult;
                           console.log(allArticleResults);
+
                             //now we render
 
                             if(articleCount+1 == DISPLAY_ARTICLE_COUNT) {
                                 const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-                                res.render(queryPath, allArticleResults); //end of res.render
+                                res.render(queryPath, {
+                                    title1: content.articles[articleCount].title,
+                                    description1: content.articles[articleCount].description,
+                                    tweets1:listToString(tweetResults)
+                                }); //end of res.render
                             }
                   }); //end of twitter api
               }
