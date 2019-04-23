@@ -195,6 +195,8 @@ app.post('/', function async(req, res) {
       }
   }; //of type threeApiResults
 
+  let articles = [];
+
   const getNewsAPICall = util.promisify(request);
 
   getNewsAPICall(newsURL).then(data => {
@@ -206,7 +208,7 @@ app.post('/', function async(req, res) {
       db_print("Using aylien api now...");
 
       // NUMBER OF ARTICLES DISPLAYED
-      const DISPLAY_ARTICLE_COUNT = 3;
+      const DISPLAY_ARTICLE_COUNT = 10;
 
       // Create a promise, for after loop ends.
       var promises = [];
@@ -268,12 +270,14 @@ app.post('/', function async(req, res) {
                           let curArticleResult = {
                               articleName: content.articles[articleCount].title,
                               articleDescription: content.articles[articleCount].description,
-                              tweetResults: listToString(tweetResults)
+                              tweetResults: tweetResults
                           }
-                          db_print("The twitter results are: " + tweetResults);
+                          //db_print("The twitter results are: " + tweetResults);
+
+                          articles.push(curArticleResult);
+
                           allArticleResults.article[articleCount] = curArticleResult;
                       });
-
 
                       return resolve(); // SUCCESS
                   } // end of if statement
@@ -284,7 +288,13 @@ app.post('/', function async(req, res) {
 
       // After all promises fulfilled, then send results.
       Promise.all(promises)
-          .then(function(){ res.send(allArticleResults); })
+          .then(function(){
+              db_print("Results are: " );
+              db_print(articles);
+              const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
+              //res.send(allArticleResults);
+
+              res.render(queryPath, {articles: articles});})
           .catch(function() { console.log("error")} );
 
 

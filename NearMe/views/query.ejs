@@ -1,41 +1,45 @@
-
-<div class="topnav">
-    <a href="/">New Search</a>
-    <a href="/logout">Logout</a>
-    <div class="dropdown" style="float:right;">
-        <button class="dropbtn">Profile
-        </button>
-        <div class="dropdown-content">
-            <a href="#">Favorite Locations</a>
-            </select>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-<script>
-    let title1 = "<%= title1 %>";
-    let description1 = "<%= description1 %>";
-    let tweets1 =  "<%= tweets1 %>";
-</script>
+<head>
+    <meta charset="utf-8">
+    <title>News Query Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
 
 <body>
-<div class="homepage testpage">
-    <h1>NEWS API RESULTS</h1>
-    <div id="article1">
-        <h3> <%= title1 %> </h3>
-        <p>Description: <%= description1 %> </p>
-        <p>Tweets: <%= tweets1 %></p>
+    <div class="topnav">
+        <a href="/">New Search</a>
+        <a href="/logout">Logout</a>
+        <div class="dropdown" style="float:right;">
+            <button class="dropbtn">Profile
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Favorite Locations</a>
+                </select>
+            </div>
+        </div>
     </div>
 
-</div>
+    <div class="homepage testpage">
+        <h1>NEWS API RESULTS</h1>
 
 
+        <% articles.forEach(function(article, index){ %>
+            <div id="article1">
+                <h3>Aritcle Title: <%= article.articleName %></h3>
+                <p>Description: <%= article.articleDescription %></p>
+                <p>Tweets: <%= article.tweetResults %></p>
+            </div>
+        <% }); %>
+
+
+    </div>
 </body>
+
+<script>
+console.log(allArticleResults);
+</script>
+
+
 <style>
 
     .topnav {
