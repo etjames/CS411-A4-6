@@ -171,40 +171,46 @@ app.post('/', function async(req, res) {
       }
   }; //of type threeApiResults
 
+  let articles = [];
+
   const getNewsAPICall = util.promisify(request);
 
   getNewsAPICall(newsURL).then(data => {
+
+      // Json parse article content
       let content = JSON.parse(data.body);
-      //db_print(content); //these are the articles
 
       //now we use the aylien api to get keywords
       db_print("Using aylien api now...");
 
-      //we actually want to loop through some x number of articles:
+      // NUMBER OF ARTICLES DISPLAYED
       const DISPLAY_ARTICLE_COUNT = 3;
 
-      for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
-          textapi.entities({
-              url: content.articles[articleCount].url
-          }, function async(error, response) {
-              if (error === null) {
-                      const foundKeyWords = response.entities['keyword'];
+      // Create a promise, for after loop ends.
+      var promises = [];
 
-                      //db_print(response.entities);
-                      //db_print(foundKeyWords);
+      // For each article, get Twitter results
+      for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
+          promises.push(getTwitterResults(articleCount));
+      }
+
+      // Helper function getTwitterResults, wrapped around return Promise
+      function getTwitterResults(articleCount) {
+          return new Promise(function (resolve, reject) {
+              textapi.entities({ url: content.articles[articleCount].url}, function async(error, response) {
+                  if (error === null) {
+                      const foundKeyWords = response.entities['keyword'];
                       let keywordsString = "";
                       if (foundKeyWords != undefined) {
                           const arrayLength = foundKeyWords.length;
-                          //db_print(arrayLength);
                           for (let i = 0; i < arrayLength; i++) {
                               if (i != arrayLength - 1) {
-                                keywordsString += foundKeyWords[i] + ", ";
+                                  keywordsString += foundKeyWords[i] + ", ";
                               } else {
                                   keywordsString += foundKeyWords[i];
                               }
                           }
-                      }
-                      else{
+                      } else {
                           keywordsString = "";
                       }
 
@@ -214,41 +220,40 @@ app.post('/', function async(req, res) {
                       let twitterQuery1 = "" + newsSearch + ", "; //we start with just the city
                       let twitterQuery2 = "" + newsSearch + ", "; //this one will not have any keywords
                       if (response.entities != undefined) {
-                          if(response.entities['organization'] != undefined) {
+                          if (response.entities['organization'] != undefined) {
                               twitterQuery1 += response.entities['organization'][0] + ", ";
                               twitterQuery2 += response.entities['organization'][0] + ", ";
                           }
-                          if(response.entities['person'] != undefined) {
+                          if (response.entities['person'] != undefined) {
                               twitterQuery1 += response.entities['person'][0] + ", ";
                               twitterQuery2 += response.entities['person'][0];
                           }
-                          if(response.entities['keyword'] != undefined) {
+                          if (response.entities['keyword'] != undefined) {
                               twitterQuery1 += response.entities['keyword'][0];
                           }
-                          //db_print("twitterQuery1 is: " + twitterQuery1);
                           db_print("twitterQuery2 is: " + twitterQuery2);
                       }
 
                       //now we try to get a twitter call
-
                       twitterClient.get('search/tweets', {q: twitterQuery2}, function async(error, tweets, response) {
                           let tweetsList = tweets['statuses'];
                           let tweetResults = [];
-                          for(let tweetIndex in tweetsList) {
+                          for (let tweetIndex in tweetsList) {
                               let tweetText = tweetsList[tweetIndex]['text'];
-                              //console.log("tweetText: " + tweetText);
                               tweetResults.push(tweetText);
                           }
-
 
                           let curArticleResult = {
                               articleName: content.articles[articleCount].title,
                               articleDescription: content.articles[articleCount].description,
-                              tweetResults: listToString(tweetResults)
+                              tweetResults: tweetResults
                           }
-                          db_print("The twitter results are: " + tweetResults);
+                          //db_print("The twitter results are: " + tweetResults);
+
+                          articles.push(curArticleResult);
 
                           allArticleResults.article[articleCount] = curArticleResult;
+<<<<<<< HEAD
                           console.log(allArticleResults);
                             //now we render
 
@@ -260,10 +265,30 @@ app.post('/', function async(req, res) {
                   }); //end of twitter api
               }
           }); //end of aylien api
-      }
-      db_print("For loop ended inside news api ended");
+=======
+                      });
 
-  }).catch(err => console.log('error: ' , err))
+                      return resolve(); // SUCCESS
+                  } // end of if statement
+              }); //end of aylien api
+
+          }); // end of promise
+>>>>>>> 0c58d6da33459007fb5c038f45d699a3bb93ae2a
+      }
+
+      // After all promises fulfilled, then send results.
+      Promise.all(promises)
+          .then(function(){
+              db_print("Results are: " );
+              db_print(articles);
+              const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
+              //res.send(allArticleResults);
+
+              res.render(queryPath, {articles: articles});})
+          .catch(function() { console.log("error")} );
+
+
+  }).catch(err => console.log('error: ' , err));
 
 }) //end of app.post
 
