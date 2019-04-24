@@ -26,8 +26,8 @@
 
         <% articles.forEach(function(article, index){ %>
             <div class="article1">
-                <h3>Aritcle Title: <%= article.articleName %></h3>
-                <p>Description: <%= article.articleDescription %></p>
+                <h3><%= article.articleName %></h3>
+                <p><%= article.articleDescription %></p>
                 <p>Tweets: <%= article.tweetResults %></p>
             </div>
         <% }); %>
@@ -83,7 +83,7 @@
 
     html {
         display:table;
-        width:100%;
+        height:100%;
         overflow-y: scroll;
     }
 
