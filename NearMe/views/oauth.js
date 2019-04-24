@@ -208,7 +208,7 @@ app.post('/', function async(req, res) {
       db_print("Using aylien api now...");
 
       // NUMBER OF ARTICLES DISPLAYED
-      const DISPLAY_ARTICLE_COUNT = 10;
+      const DISPLAY_ARTICLE_COUNT = 3;
 
       // Create a promise, for after loop ends.
       var promises = [];

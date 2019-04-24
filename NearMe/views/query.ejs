@@ -24,7 +24,7 @@
 
 
         <% articles.forEach(function(article, index){ %>
-            <div id="article1">
+            <div class="article1">
                 <h3>Aritcle Title: <%= article.articleName %></h3>
                 <p>Description: <%= article.articleDescription %></p>
                 <p>Tweets: <%= article.tweetResults %></p>
@@ -77,6 +77,13 @@ console.log(allArticleResults);
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    .article1 {
+        border: 1px solid black;
+        box-shadow: 5px 5px #888888;
+        margin-bottom: 10px;
+    }
+
     body {
         background-image: linear-gradient(#00C9FF, #92FE9D);
         background-repeat: no-repeat;
