@@ -238,9 +238,14 @@ app.post('/', function async(req, res) {
                       twitterClient.get('search/tweets', {q: twitterQuery2}, function async(error, tweets, response) {
                           let tweetsList = tweets['statuses'];
                           let tweetResults = [];
+                          let maxTweets = 3;
+                          let tweetsGotten = 0;
                           for (let tweetIndex in tweetsList) {
                               let tweetText = tweetsList[tweetIndex]['text'];
-                              tweetResults.push(tweetText);
+                              tweetsGotten++;
+                              if(tweetsGotten <= maxTweets) {
+                                tweetResults.push(tweetText);
+                              }
                           }
 
                           let curArticleResult = {
