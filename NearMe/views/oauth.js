@@ -184,7 +184,7 @@ app.post('/', function async(req, res) {
       db_print("Using aylien api now...");
 
       // NUMBER OF ARTICLES DISPLAYED
-      const DISPLAY_ARTICLE_COUNT = 3;
+      const DISPLAY_ARTICLE_COUNT = 5;
 
       // Create a promise, for after loop ends.
       var promises = [];
@@ -253,19 +253,6 @@ app.post('/', function async(req, res) {
                           articles.push(curArticleResult);
 
                           allArticleResults.article[articleCount] = curArticleResult;
-<<<<<<< HEAD
-                          console.log(allArticleResults);
-                            //now we render
-
-                            if(articleCount+1 == DISPLAY_ARTICLE_COUNT) {
-                                const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-                                console.log(allArticleResults.article.articleName);
-                                res.render(queryPath, allArticleResults); //end of res.render
-                            }
-                  }); //end of twitter api
-              }
-          }); //end of aylien api
-=======
                       });
 
                       return resolve(); // SUCCESS
@@ -273,7 +260,6 @@ app.post('/', function async(req, res) {
               }); //end of aylien api
 
           }); // end of promise
->>>>>>> 0c58d6da33459007fb5c038f45d699a3bb93ae2a
       }
 
       // After all promises fulfilled, then send results.
