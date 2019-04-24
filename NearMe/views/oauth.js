@@ -191,7 +191,9 @@ app.post('/', function async(req, res) {
 
       // For each article, get Twitter results
       for(let articleCount = 0; articleCount < DISPLAY_ARTICLE_COUNT; articleCount ++) {
-          promises.push(getTwitterResults(articleCount));
+          if(articleCount < content.articles.length - 1) {
+            promises.push(getTwitterResults(articleCount));
+          }
       }
 
       // Helper function getTwitterResults, wrapped around return Promise
