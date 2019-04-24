@@ -151,11 +151,11 @@ app.post('/', function async(req, res) {
   const date = new Date();
   const year = date.getFullYear();
   const day = date.getDate();
-  const month = date.getMonth() + 1;
+  const month = date.getMonth() + 1; //starts at 0 for january
   db_print("Today is " + year + "-" + month  + "-" + day);
 
-  let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
-      '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
+    let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
+        '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
 
   let threeApiResults = {
       articleName: String,
