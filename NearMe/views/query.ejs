@@ -4,6 +4,7 @@
         <title>News Query Results</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>value = localStorage["key"];</script>
     </head>
 
     <body>
@@ -21,14 +22,14 @@
         </div>
 
         <div class="homepage testpage" align="center">
-            <h1>NEWS API RESULTS</h1>
+          <h1>Search Results</h1>
 
 
             <% articles.forEach(function(article, index){ %>
                 <div class="article1">
                     <h3><%= article.articleName %></h3>
                     <p><%= article.articleDescription %></p>
-                    <p>Tweets: <%= article.tweetResults %></p>
+                    <p>Tweets: <%= article.tweetResults %></p><br>
                 </div>
             <% }); %>
 

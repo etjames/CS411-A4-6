@@ -145,7 +145,11 @@ app.get('/', function (req, res) {
 //for responding to query, calls news api and puts callback into query.ejs
 app.post('/', function async(req, res) {
   //get user input
+  //var elementCheckBox = window.document.getElementById("favorite");
   const newsSearch = req.body.searchField;
+  //if (elementCheckBox[0].checked) {
+    //db.users.update({id:token}, {$set: {"favorites": newsSearch}})
+  //}
 
   //get date
   const date = new Date();
