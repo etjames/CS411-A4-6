@@ -250,11 +250,17 @@ app.post('/', function async(req, res) {
                               }
                           }
 
+                          if (tweetResults.length == 0) {
+                              tweetResults.push("No tweets found.");
+                          }
+
                           let curArticleResult = {
                               articleName: content.articles[articleCount].title,
                               articleDescription: content.articles[articleCount].description,
                               tweetResults: tweetResults
                           }
+
+
                           //db_print("The twitter results are: " + tweetResults);
 
                           articles.push(curArticleResult);
