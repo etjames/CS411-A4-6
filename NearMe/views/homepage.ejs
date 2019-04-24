@@ -1,4 +1,3 @@
-<a href="/logout">Logout</a>
 
 <div class="homepage testpage">
     <h1>SEARCH NEWS API</h1>
@@ -7,7 +6,20 @@
     <button class="myButton">Go</button>
     </form>
   </div>
-  <body> 
+
+  <body>
+    <div class="topnav">
+        <a href="/logout">Logout</a>
+        <div class="dropdown" style="float:right;">
+            <button class="dropbtn">Profile
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Favorite Locations</a>
+                </select>
+            </div>
+        </div>
+    </div>
+
 
   </body>
   <style>
@@ -76,5 +88,85 @@
         position:relative;
         top:1px;
     }
-    
+
+
+  .topnav {
+      background-color: none;
+      overflow: hidden;
+      width: 350%;
+      margin-left: -10px;
+      margin-top: -11px;
+  }
+
+  /* Style the links inside the navigation bar */
+  .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+      font-family: Arial, Helvetica, sans-serif;
+
+  }
+
+  /* Change the color of links on hover */
+  .topnav a:hover {
+      background-color: none;
+      color: black;
+  }
+
+  .dropdown {
+      float: right;
+      overflow: hidden;
+      padding: 14px 16px;
+      font-family: inherit;
+
+  }
+
+  .dropdown .dropbtn {
+      font-size: 17px;
+      border: none;
+      outline: none;
+      color: white;
+      background-color: inherit;
+      font: Arial;
+  }
+
+  .navbar a:hover, .dropdown:hover .dropbtn {
+      background-color: none;
+
+
+  }
+
+  .dropdown-content {
+      display: none;
+      float: hidden;
+      position: absolute;
+      right: 0;
+      background-color: #8ee596;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+  }
+
+  .dropdown-content a {
+      display: block;
+      float: hidden;
+      color: white;
+      text-decoration: none;
+      text-align: left;
+  }
+
+  .dropdown-content a:hover {
+      background-color: black;
+      text-align: left;
+      color: white;
+  }
+
+  .dropdown:hover .dropdown-content {
+      display: block;
+  }
+
+
   </style>
