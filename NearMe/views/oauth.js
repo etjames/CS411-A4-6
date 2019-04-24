@@ -5,13 +5,12 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session');
 
+const User = require('../nearmedb');
+
 let bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let mongoose = require('mongoose');
-//const mongo = require('mongodb').MongoClient
-
-//const url = 'mongodb://localhost:27017'
 
 mongoose.connect('mongodb://localhost:27017/nearme', {useNewUrlParser: true}, function(err, db) {
     if (err) {
@@ -23,19 +22,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
 }); 
-
-/*
-mongo.connect(url, (err, client) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    //...
-  });
-
-  const db = client.db('nearme');
-
-  const collection = db.collection('usercollection') */
 
 auth(passport);
 app.use(passport.initialize());
@@ -60,26 +46,16 @@ app.use(cookieSession({
 }));
 app.use(cookieParser());
 
+
+
 app.get('/', (req, res) => {
-    console.log(req.session.token)
     let name = req.body.searchField
     console.log(name);
-    //console.log('req.body.name', req.body['name']);
-    if (req.session.token) {
-        res.redirect('./homepage');
-        //res.redirect('https://www.googleapis.com/oauth2/v1/userinfo?alt=json');
-
-       // res.cookie('token', '');
-        //res.json({
-          //  status: 'session cookie set'
-       // });
+    if (req.session) {
+       res.redirect('./homepage');
     } else {
         res.redirect('./login');
-        //res.cookie('token', '')
-        //res.json({
-          //  status: 'session cookie not set'
-        };//);
-    //}
+        };
 });
 
 app.get('/logout', (req, res) => {
@@ -89,16 +65,16 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/auth/google', passport.authenticate('google', {
-    scope: ['https://www.googleapis.com/auth/userinfo.profile']
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
 }));
 
 app.get('/auth/google/redirect',
     passport.authenticate('google', {
-        failureRedirect: 'login'
-    }),
+        failureRedirect: 'login'}),
     (req, res) => {
-        console.log(req.user.token);
         req.session.token = req.user.token;
+        console.log('hi look below')
+        console.log(req.user.token);
         res.redirect('/homepage');
     }
 );
@@ -278,6 +254,7 @@ app.post('/', function async(req, res) {
 
                             if(articleCount+1 == DISPLAY_ARTICLE_COUNT) {
                                 const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
+                                console.log(allArticleResults.article.articleName);
                                 res.render(queryPath, allArticleResults); //end of res.render
                             }
                   }); //end of twitter api

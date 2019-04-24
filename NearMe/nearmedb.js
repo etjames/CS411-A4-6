@@ -1,18 +1,18 @@
 
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt-nodejs');
 
 // Define schema
-var userSchema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+  id: String,
   name: String,
   email: String,
   favorites: String
 });
 
 // Compile model from schema
-var dbmodel = mongoose.model('usercollection', UserCollection );
+var user = mongoose.model('User', userSchema );
 
 userSchema.methods.updateUser = function(request, response){
 
@@ -24,4 +24,4 @@ userSchema.methods.updateUser = function(request, response){
 
 
 
-module.exports = mongoose.model('usercollection', userSchema);
+module.exports = mongoose.model('User', userSchema);
