@@ -1,40 +1,40 @@
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>News Query Results</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>News Query Results</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    </head>
 
-<body>
-    <div class="topnav">
-        <a href="/">New Search</a>
-        <a href="/logout">Logout</a>
-        <div class="dropdown" style="float:right;">
-            <button class="dropbtn">Profile
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Favorite Locations</a>
-                </select>
+    <body>
+        <div class="topnav">
+            <a href="/">New Search</a>
+            <a href="/logout">Logout</a>
+            <div class="dropdown" style="float:right;">
+                <button class="dropbtn">Profile
+                </button>
+                <div class="dropdown-content">
+                    <a href="#">Favorite Locations</a>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="homepage testpage">
-        <h1>NEWS API RESULTS</h1>
-
-
-        <% articles.forEach(function(article, index){ %>
-            <div class="article1">
-                <h3><%= article.articleName %></h3>
-                <p><%= article.articleDescription %></p>
-                <p>Tweets: <%= article.tweetResults %></p>
-            </div>
-        <% }); %>
+        <div class="homepage testpage">
+            <h1>NEWS API RESULTS</h1>
 
 
-    </div>
-</body>
+            <% articles.forEach(function(article, index){ %>
+                <div class="article1">
+                    <h3><%= article.articleName %></h3>
+                    <p><%= article.articleDescription %></p>
+                    <p>Tweets: <%= article.tweetResults %></p>
+                </div>
+            <% }); %>
+
+
+        </div>
+    </body>
 
 </html>
 <style>
@@ -42,7 +42,7 @@
     .topnav {
         background-color: none;
         overflow: hidden;
-        width: 350%;
+        width: 100%;
         margin-left: -10px;
         margin-top: -11px;
     }
@@ -63,22 +63,13 @@
         background-color: none;
         color: black;
     }
-    .testpage
-    {
-        display: block;
-        color: black;
-        text-align: center;
-        align-content: center;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+
 
     .article1 {
         border: 1px solid black;
         box-shadow: 5px 5px #888888;
         margin-bottom: 10px;
+        width: 65%;
     }
 
     html {
@@ -89,18 +80,15 @@
 
     body {
         background-image: linear-gradient(#00C9FF, #92FE9D);
+        font-family: Arial, Helvetica, sans-serif;
+        content-align: center;
     }
 
 
     h1 {
         color: rgb(61, 180, 235);
-        font: 60px, "Arial";
+        font: 60px "Arial";
     }
-
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
 
     .dropdown {
         float: right;
