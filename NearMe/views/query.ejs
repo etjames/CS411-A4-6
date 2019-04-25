@@ -23,7 +23,7 @@
         </div>
 
         <div class="homepage testpage" align="center">
-          <h1>Search results for <%= cityQuery %></h1>
+          <h1>Results for <%= cityQuery %></h1>
 
             <div class="results-wrapper">
                 <% articles.forEach(function(article, index){ %>
@@ -39,7 +39,11 @@
                             </div>
                         </div>
 
-                        <div class="tweet-content" id="tweets">
+                        <div class="twitter-hide-button">
+                            <label for="showHide">Twitter Comments</label>
+                            <input type="submit" value="v" onclick="hideTweets(this.parentNode.nextElementSibling)">
+                        </div>
+                        <div class="tweet-content">
                             <% article.tweets.forEach(function(tweet, index){ %>
                              <div class="tweet">
                                 <% if (article.numTweets > 0) { %>
@@ -61,8 +65,29 @@
         </div>
     </body>
 
+<script>
+    //function for hiding tweets
+    function hideTweets(hidingElement) {
+        if(hidingElement.style.display === "none") {
+            hidingElement.style.display = "block";
+        }
+        else {
+            hidingElement.style.display="none";
+        }
+    }
+</script>
+
 </html>
 <style>
+
+    /* Shown */
+    div.showHide {
+        display: inline;
+    }
+    /* Hidden */
+    input[type=checkbox]:checked ~ div.showHide {
+        display: none;
+    }
 
     .topnav {
         background-color: none;
@@ -89,6 +114,18 @@
         color: black;
     }
 
+    .twitter-hide-button {
+        display:flex; flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: deepskyblue;
+    }
+
+    .twitter-hide-button h3 {
+        padding: 0;
+        margin: 2px;
+    }
+
     .article-wrapper {
         display:flex; flex-direction:column;
         border: 1px solid black;
@@ -109,11 +146,9 @@
         text-align:left;
     }
 
-
     .article-picture {
         padding-right: 1rem;
     }
-
 
     html {
         display:table;
@@ -125,7 +160,6 @@
         background-image: linear-gradient(#00C9FF, #92FE9D);
         font-family: Arial, Helvetica, sans-serif;
     }
-
 
     h1 {
         color: rgb(61, 180, 235);
@@ -181,6 +215,4 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
-
-
 </style>
