@@ -1,141 +1,284 @@
-<div id="maps"></div>
-<!-- Replace the value of the key parameter with your own API key. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&callback=initMap" async defer></script>
-
 <script type="text/javascript"></script>
 <div class="homepage testpage">
     <h1>Search by Map</h1>
 
+
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 400px;
+                width: 700px;
+            }
+            #floating-panel {
+                position: absolute;
+                top: 10px;
+                left: 25%;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+                text-align: center;
+                font-family: 'Roboto','sans-serif';
+                line-height: 30px;
+                padding-left: 10px;
+            }
+            #floating-panel {
+                position: absolute;
+                top: 500px;
+                left: 50%;
+                margin-left: -180px;
+                width: 350px;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+            }
+            #latlng {
+                width: 225px;
+            }
+        </style>
+    </head>
+    <body>
+    <!--The div element for the map -->
+    <div id="latclicked", style="display: none;"></div>
+    <div id="longclicked", style="display: none;"></div>
+
+
+    <div id="latmoved", style="display: none;"></div>
+    <div id="longmoved", style="display: none;"></div>
+
+
+    <div id="floating-panel">
+        <input onclick="deleteMarkers();" type=button value="Remove Current Pin">
+        <input id="submit" type="button" value="Search">
+    </div>
+    <div id="map"></div>
+    <script>
+        var latlng;
+        var markers = [];
+        var city;
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: {lat: 42.3601, lng: -71.0589},
+                disableDoubleClickZoom: true,
+            });
+
+            google.maps.event.addListener(map,'click',function(event) {
+                document.getElementById('latclicked').innerHTML = event.latLng.lat();
+                document.getElementById('longclicked').innerHTML =  event.latLng.lng();
+                latlng =  {lat: parseFloat(event.latLng.lat()), lng: parseFloat(event.latLng.lng())};
+
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+                markers.push(marker);
+            });
+
+
+            google.maps.event.addListener(map,'mousemove',function(event) {
+                document.getElementById('latmoved').innerHTML = event.latLng.lat();
+                document.getElementById('longmoved').innerHTML = event.latLng.lng();
+            });
+
+            var geocoder = new google.maps.Geocoder;
+            var infowindow = new google.maps.InfoWindow;
+
+            document.getElementById('submit').addEventListener('click', function() {
+                geocodeLatLng(geocoder, map, infowindow);
+            });
+        }
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+        }
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        function geocodeLatLng(geocoder, map, infowindow) {
+            var flag = 0;
+            geocoder.geocode({'location': latlng}, function(results, status) {
+                if (status === 'OK') {
+                    if (results[1]) {
+                        //formatted address
+                        //find country name
+                        for (var i=0; i<results[0].address_components.length; i++) {
+                            for (var b=0;b<results[0].address_components[i].types.length;b++) {
+
+                                //there are different types that might hold a city
+                                if (results[0].address_components[i].types[b] == "locality" || (results[0].address_components[i].types[b] == 'administrative_area_level_1' && flag == 0)) {
+                                    //this is the object you are looking for
+                                    var cityitem= results[0].address_components[i];
+                                    city = cityitem.long_name
+                                    flag = 1;
+                                    console.log(city);
+                                    break;
+                                }
+                            }
+
+                        }
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGt8I-WSVOxbOiJoWk6wVcmUZh1TpB94&callback=initMap">
+    </script>
+    </body>
+
+
+
+
+
+
     <!--map goes here-->
     <form action="/" method="post">
-    <br>
-    <br>
-    <a href="/homepage">Search by Keyword instead</a>
+        <br>
+        <br>
+        <a href="/homepage">Search by Keyword instead</a>
     </form>
-  </div>
+</div>
 
-  <body>
-      
-    <div class="topnav">
-        <a href="/logout">Logout</a>
-        <div class="dropdown" style="float:right;">
-            <button class="dropbtn">Profile
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Favorite Locations</a>
-                </select>
-            </div>
+<body>
+
+<div class="topnav">
+    <a href="/logout">Logout</a>
+    <div class="dropdown" style="float:right;">
+        <button class="dropbtn">Profile
+        </button>
+        <div class="dropdown-content">
+            <a href="#">Favorite Locations</a>
+            </select>
         </div>
     </div>
+</div>
 
 
-  </body>
-  <style>
-  .testpage
- {
-    display: block;
-    color: black;
-    text-align: center;
-    align-content: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  body {
-      background-image: linear-gradient(#00C9FF, #92FE9D);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      width: 400px;
-      height: 400px;
-  }
-  
-  
-  h1 {
-      color: rgb(61, 180, 235);
-      font: 60px "Arial";
-  }
+</body>
+<style>
+    .testpage
+    {
+        display: block;
+        color: black;
+        text-align: center;
+        align-content: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    body {
+        background-image: linear-gradient(#00C9FF, #92FE9D);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        width: 400px;
+        height: 400px;
+    }
+
+
+    h1 {
+        color: rgb(61, 180, 235);
+        font: 60px "Arial";
+    }
 
 
 
-  .topnav {
-      background-color: none;
-      overflow: hidden;
-      width: 350%;
-      margin-left: -10px;
-      margin-top: -11px;
-  }
+    .topnav {
+        background-color: none;
+        overflow: hidden;
+        width: 350%;
+        margin-left: -10px;
+        margin-top: -11px;
+    }
 
-  /* Style the links inside the navigation bar */
-  .topnav a {
-      float: left;
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-      font-family: Arial, Helvetica, sans-serif;
+    /* Style the links inside the navigation bar */
+    .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        font-family: Arial, Helvetica, sans-serif;
 
-  }
+    }
 
-  /* Change the color of links on hover */
-  .topnav a:hover {
-      background-color: none;
-      color: black;
-  }
+    /* Change the color of links on hover */
+    .topnav a:hover {
+        background-color: none;
+        color: black;
+    }
 
-  .dropdown {
-      float: right;
-      overflow: hidden;
-      padding: 14px 16px;
-      font-family: inherit;
+    .dropdown {
+        float: right;
+        overflow: hidden;
+        padding: 14px 16px;
+        font-family: inherit;
 
-  }
+    }
 
-  .dropdown .dropbtn {
-      font-size: 17px;
-      border: none;
-      outline: none;
-      color: white;
-      background-color: inherit;
-      font: Arial;
-  }
+    .dropdown .dropbtn {
+        font-size: 17px;
+        border: none;
+        outline: none;
+        color: white;
+        background-color: inherit;
+        font: Arial;
+    }
 
-  .navbar a:hover, .dropdown:hover .dropbtn {
-      background-color: none;
-
-
-  }
-
-  .dropdown-content {
-      display: none;
-      float: hidden;
-      position: absolute;
-      right: 0;
-      background-color: #8ee596;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-  }
-
-  .dropdown-content a {
-      display: block;
-      float: hidden;
-      color: white;
-      text-decoration: none;
-      text-align: left;
-  }
-
-  .dropdown-content a:hover {
-      background-color: black;
-      text-align: left;
-      color: white;
-  }
-
-  .dropdown:hover .dropdown-content {
-      display: block;
-  }
+    .navbar a:hover, .dropdown:hover .dropbtn {
+        background-color: none;
 
 
-  </style>
+    }
+
+    .dropdown-content {
+        display: none;
+        float: hidden;
+        position: absolute;
+        right: 0;
+        background-color: #8ee596;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        display: block;
+        float: hidden;
+        color: white;
+        text-decoration: none;
+        text-align: left;
+    }
+
+    .dropdown-content a:hover {
+        background-color: black;
+        text-align: left;
+        color: white;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+
+</style>
