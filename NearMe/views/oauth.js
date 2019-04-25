@@ -270,9 +270,13 @@ app.post('/', function async(req, res) {
                           articles.push(curArticleResult);
 
                           allArticleResults.article[articleCount] = curArticleResult;
+
+                          let wait = setTimeout(() => {
+                              clearTimeout(wait);
+                              return resolve(); // SUCCESS after timeout
+                          }, 200)
                       });
 
-                      return resolve(); // SUCCESS
                   } // end of if statement
               }); //end of aylien api
 
