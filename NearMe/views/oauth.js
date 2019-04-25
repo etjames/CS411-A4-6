@@ -239,7 +239,7 @@ app.post('/', function async(req, res, profile) {
                           if (response.entities['keyword'] != undefined) {
                               twitterQuery1 += response.entities['keyword'][0];
                           }
-                          db_print("twitterQuery2 is: " + twitterQuery2);
+                          //db_print("twitterQuery2 is: " + twitterQuery2);
                       }
 
                       //now we try to get a twitter call
