@@ -28,16 +28,6 @@ app.use(passport.initialize());
 
 app.set('view engine', 'ejs');
 
-// check mark code
-/*app.post('/clicked', (req, res) => {
-    db.collection('users').save(newsSearch), (err, result) => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log('click added to db');
-      res.render("query");
-    }});
-*/
 
 app.get('/login',
   function(req, res){
@@ -59,8 +49,6 @@ app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
-    let name = req.body.searchField
-    console.log(name);
     if (req.session) {
        res.redirect('./homepage');
     } else {
