@@ -1,26 +1,19 @@
 
-<script type="text/javascript"></script>
 <div class="homepage testpage">
     <h1>Search by Keyword</h1>
     <form action="/" method="post">
     <input type="text" name ="searchField" style="height:50px; width:190px; font-size:22px; text-align: center" placeholder="Search News">
     <button class="myButton">Go</button>
-    <input type="checkbox" onClick="validate()" id="favorite" value="Add to Favorites"> Add to Favorite<br>
+    <input type="checkbox" name="favorite" > Add to Favorite<br>
     <br>
     <br>
     <br>
     <a href="/maps">Search by Map instead</a>
     </form>
-  </div>
-  <script type="text/javascript">
-    function validate() {
-        if (document.getElementById('favorite').checked) {
-            db.users.updateMany({email: "chychyheart@gmail.com"}, {$set: {"favorites": "LA"}});
-        } else {
-            alert("You didn't check it!");
-        }
-    }
-    </script>
+</div>
+<script type="text/javascript">
+</script>
+  
 
   <body>
       
@@ -186,4 +179,4 @@
 
 
   </style>
-  <script>localStorage["key"] = searchField;</script>
+  <script>src = "oauth.js" </script>
