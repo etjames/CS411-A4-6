@@ -149,8 +149,8 @@ app.post('/', function async(req, res, profile) {
   User.findOne({'id': profile.id}, 
         function(err, user, token) {
             if (favorite === "on") {
-                var favs = { favorites: favorite };
-                User.findOneAndUpdate({id: token }, { $push: { favorites: newsSearch  } },
+                console.log("ho " + token);
+                connection.user.update({id: profile.id }, { $push: { favorites: newsSearch  } },
                     function (error, success) {
                         if (error) {
                             console.log(error);
