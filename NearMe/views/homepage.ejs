@@ -1,29 +1,9 @@
 
-<script type="text/javascript"></script>
-<div class="homepage testpage">
-    <h1>Search by Keyword</h1>
-    <form action="/" method="post">
-    <input type="text" name ="searchField" style="height:50px; width:190px; font-size:22px; text-align: center" placeholder="Search News">
-    <button class="myButton">Go</button>
-    <input type="checkbox" onClick="validate()" id="favorite" value="Add to Favorites"> Add to Favorite<br>
-    <br>
-    <br>
-    <br>
-    <a href="/maps">Search by Map instead</a>
-    </form>
-  </div>
-  <script type="text/javascript">
-    function validate() {
-        if (document.getElementById('favorite').checked) {
-            db.users.updateMany({email: "chychyheart@gmail.com"}, {$set: {"favorites": "LA"}});
-        } else {
-            alert("You didn't check it!");
-        }
-    }
-    </script>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+</head>
 
-  <body>
-      
+<body>
     <div class="topnav">
         <a href="/logout">Logout</a>
         <div class="dropdown" style="float:right;">
@@ -36,11 +16,33 @@
         </div>
     </div>
 
+    <div id="loading"></div>
 
-  </body>
+    <div class="homepage testpage" id="container">
+        <h1>Search by Keyword</h1>
+        <form action="/" method="post">
+
+            <div class="input-wrapper">
+                <div class="input-area">
+                    <input type="text" id="searchField" name="searchField" placeholder="City">
+                    <button class="myButton" onclick="loading();">Go</button>
+                </div>
+                <div class="favorite">
+                    <input type="checkbox" name="favorite" > Add to Favorite<br>
+                </div>
+            </div>
+        <br>
+        <br>
+        <br>
+        <a href="/maps">Search by Map instead</a>
+        </form>
+    </div>
+
+</body>
+
+
   <style>
-  .testpage
- {
+  .testpage {
     display: block;
     color: black;
     text-align: center;
@@ -51,25 +53,35 @@
     transform: translate(-50%, -50%);
   }
   body {
-      background-image: linear-gradient(#00C9FF, #92FE9D);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      width: 400px;
-      height: 400px;
+      background:#f9f9f9;
+      font-family: 'Nunito Sans', sans-serif !important;
+      margin:0 !important;
   }
   
   
   h1 {
       color: rgb(61, 180, 235);
-      font: 60px "Arial";
+      font-size: 60px;
   }
-  
+
+  #searchField{
+      height:50px;
+      width:190px;
+      font-size:22px;
+      text-align: center;
+  }
+
+  .input-wrapper{
+      display:flex; flex-direction: column;
+  }
+
+  .favorite {
+      padding-top:1rem;
+  }
     .myButton {
         -moz-box-shadow: 0px 8px 26px -1px #276873;
         -webkit-box-shadow: 0px 8px 26px -1px #276873;
         box-shadow: 0px 8px 26px -1px #276873;
-       
         background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
         background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
         background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
@@ -83,7 +95,6 @@
         display:inline-block;
         cursor:pointer;
         color:#ffffff;
-        font-family:Arial;
         font-size:19px;
         font-weight:bold;
         padding:12px 28px;
@@ -107,11 +118,10 @@
 
 
   .topnav {
-      background-color: none;
+      background-color: deepskyblue;
       overflow: hidden;
-      width: 350%;
-      margin-left: -10px;
-      margin-top: -11px;
+      width: 100%;
+      margin: 0;
   }
 
   /* Style the links inside the navigation bar */
@@ -122,7 +132,6 @@
       padding: 14px 16px;
       text-decoration: none;
       font-size: 17px;
-      font-family: Arial, Helvetica, sans-serif;
 
   }
 
@@ -136,7 +145,6 @@
       float: right;
       overflow: hidden;
       padding: 14px 16px;
-      font-family: inherit;
 
   }
 
@@ -146,7 +154,6 @@
       outline: none;
       color: white;
       background-color: inherit;
-      font: Arial;
   }
 
   .navbar a:hover, .dropdown:hover .dropbtn {
@@ -184,6 +191,25 @@
       display: block;
   }
 
+  div#loading {
+      position: fixed; /* or absolute */
+      top: 30%;
+      left: 44%;
+      width: 400px;
+      height: 400px;
+      background: url("https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif") no-repeat;
+      cursor: wait;
+      display:none;
+  }
 
   </style>
-  <script>localStorage["key"] = searchField;</script>
+  <script>
+      src = "oauth.js";
+      type="text/javascript";
+
+      function loading(){
+          document.getElementById("loading").style.display = "block";
+          document.getElementById("container").style.display = "none";
+      }
+
+  </script>

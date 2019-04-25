@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>value = localStorage["key"];</script>
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
     </head>
 
     <body>
         <div class="topnav">
-            <a href="/">New Search</a>
+            <a href="/">Home</a>
             <a href="/logout">Logout</a>
             <div class="dropdown" style="float:right;">
                 <button class="dropbtn">Profile
@@ -22,32 +23,89 @@
         </div>
 
         <div class="homepage testpage" align="center">
-          <h1>Search Results</h1>
+            <div class="result-header">
+                <h1 id="res-header">Results for <%= cityQuery %>...</h1>
+            </div>
 
+            <div class="results-wrapper">
+                <% articles.forEach(function(article, index){ %>
+                    <div class="article-wrapper">
+                        <div class="article-content">
+                            <div class="article-picture">
+                                <img src= <%= article.articlePicture %> alt="No Photos" width="100px" height="100px" object-fit="cover"></img>
+                            </div>
+                            <div class="article-description">
+                                <h3 id="article-title"><%= article.articleName %></h3>
+                                <p><%= article.articleTagline %></p>
+                                <p><a href="<%= article.articleURL %>" id="read-more"> Read more... </a></p>
+                            </div>
+                        </div>
 
-            <% articles.forEach(function(article, index){ %>
-                <div class="article1">
-                    <h3><%= article.articleName %></h3>
-                    <p><%= article.articleDescription %></p>
-                    <p>Tweets: <%= article.tweetResults %></p><br>
-                </div>
-            <% }); %>
+                        <div class="twitter-hide-button">
+                            <label for="showHide"><h3 id="tweet-label">Tweets</h3></label>
+                            <input id="hide-button" type="submit" value="v" onclick="hideTweets(this.parentNode.nextElementSibling)">
+                        </div>
+                        <div class="tweet-content" >
+                            <% article.tweets.forEach(function(tweet, index){ %>
+                                <div class="tweet" >
+                                    <% if (article.numTweets > 0) { %>
+                                         <p id="smallText"> <img src= <%= tweet.profileImage %> width="20px" height="20px"></img> <span id="tweet-name"> <%= tweet.name %></span> | @<%= tweet.screenName %>  </p>
+                                        <p id="smallText2"> <%= tweet.text %></p>
+                                    <% } else{ %>
+                                            <p> No Tweets Found </p>
+                                    <% } %>
+                                </div>
+                             <% }); %>
+                        </div>
+
+                    </div>
+                <% }); %>
+            </div>
 
 
         </div>
     </body>
 
+<script>
+    //function for hiding tweets
+    function hideTweets(hidingElement) {
+        if(hidingElement.style.display === "block") {
+            hidingElement.style.display = "none";
+        }
+        else {
+            hidingElement.style.display="block";
+        }
+    }
+</script>
+
 </html>
 <style>
-
-    .topnav {
-        background-color: none;
-        overflow: hidden;
-        width: 100%;
-        margin-left: -10px;
-        margin-top: -11px;
+    #read-more {
+        text-decoration: none;
+        color:gray;
+    }
+    #res-header {
+        color: rgb(61, 180, 235);
+        font-size: 40px !important;
+        padding:0 !important;
+        margin:0 !important;
     }
 
+    .twitter-hide-button {
+        padding:  0.2rem 1rem 0.2rem 1rem;
+        border-radius:1rem;
+    }
+
+    .topnav {
+        background-color: deepskyblue;
+        overflow: hidden;
+        width: 100%;
+        margin: 0;
+    }
+    .tweet-content{
+        margin-left:1rem;
+        display:none;
+    }
     /* Style the links inside the navigation bar */
     .topnav a {
         float: left;
@@ -59,18 +117,74 @@
 
     }
 
+    #tweet-name {
+        font-weight:bold;
+    }
     /* Change the color of links on hover */
     .topnav a:hover {
         background-color: none;
         color: black;
     }
 
+    .twitter-hide-button {
+        display:flex; flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: deepskyblue;
+    }
 
-    .article1 {
-        border: 1px solid black;
-        box-shadow: 5px 5px #888888;
-        margin-bottom: 10px;
-        width: 65%;
+    .twitter-hide-button h3 {
+        padding: 0;
+        margin: 2px;
+    }
+
+    .article-wrapper {
+        display:flex; flex-direction:column;
+        border: none;
+        border-radius:1rem;
+        box-shadow: 5px 5px 20px #000;
+        margin-bottom: 2rem;
+        padding: 1rem 1rem 1rem 1rem;
+        text-align:left;
+        background: white;
+    }
+
+    .results-wrapper {
+        width:45%;
+    }
+
+    .article-content {
+        display:flex;
+        text-align:left;
+    }
+
+    .article-picture {
+        padding-right: 1rem;
+        padding-bottom:16px;
+    }
+
+
+    #smallText {
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    #smallText2 {
+        margin:0 !important;
+        padding:0.1rem 0 0 1.4rem  !important;
+    }
+
+    #article-title {
+        margin:0 !important;
+    }
+
+    .tweet {
+        margin-top:0.5rem;
+    }
+
+    #hide-button {
+        background:none;
+        border:none;
     }
 
     html {
@@ -80,15 +194,15 @@
     }
 
     body {
-        background-image: linear-gradient(#00C9FF, #92FE9D);
-        font-family: Arial, Helvetica, sans-serif;
-        content-align: center;
+        background:#f9f9f9;
+        font-family: 'Nunito Sans', sans-serif;
+        margin:0 !important;
     }
 
+    .result-header {
+        padding-top:5rem;
+        padding-bottom:2rem;
 
-    h1 {
-        color: rgb(61, 180, 235);
-        font: 60px "Arial";
     }
 
     .dropdown {
@@ -104,7 +218,6 @@
         outline: none;
         color: white;
         background-color: inherit;
-        font-family: inherit;
     }
 
     .navbar a:hover, .dropdown:hover .dropbtn {
@@ -140,6 +253,4 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
-
-
 </style>

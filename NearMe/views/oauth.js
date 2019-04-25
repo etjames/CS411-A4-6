@@ -49,8 +49,6 @@ app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
-    let name = req.body.searchField
-    console.log(name);
     if (req.session) {
        res.redirect('./homepage');
     } else {
@@ -143,13 +141,18 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function async(req, res) {
+app.post('/', function async(req, res, profile) {
   //get user input
   //var elementCheckBox = window.document.getElementById("favorite");
   const newsSearch = req.body.searchField;
-  //if (elementCheckBox[0].checked) {
-    //db.users.update({id:token}, {$set: {"favorites": newsSearch}})
-  //}
+  let favorite = req.body.favorite;
+  User.findOne({'id': profile.id}, 
+        function(err, user, token) {
+            if (favorite === "on") {
+                console.log('smd')
+                User.update({email: "ctipton@bu.edu"}, {$push: {favorites: "Boston"}})
+                
+  }});
 
   //get date
   const date = new Date();
@@ -158,22 +161,9 @@ app.post('/', function async(req, res) {
   const month = date.getMonth() + 1; //starts at 0 for january
   db_print("Today is " + year + "-" + month  + "-" + day);
 
-    let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
-        '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
+  let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
+    '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
 
-  let threeApiResults = {
-      articleName: String,
-      articleDescription: String,
-      tweetResults: String
-  }
-
-
-    //we will store the articles/tweets here:
-  let allArticleResults = {
-      article: {
-
-      }
-  }; //of type threeApiResults
 
   let articles = [];
 
@@ -237,57 +227,66 @@ app.post('/', function async(req, res) {
                           if (response.entities['keyword'] != undefined) {
                               twitterQuery1 += response.entities['keyword'][0];
                           }
-                          db_print("twitterQuery2 is: " + twitterQuery2);
+                          //db_print("twitterQuery2 is: " + twitterQuery2);
                       }
 
                       //now we try to get a twitter call
                       twitterClient.get('search/tweets', {q: twitterQuery2}, function async(error, tweets, response) {
                           let tweetsList = tweets['statuses'];
-                          let tweetResults = [];
                           let maxTweets = 3;
+                          let tweetResults = [];
                           let tweetsGotten = 0;
                           for (let tweetIndex in tweetsList) {
-                              let tweetText = tweetsList[tweetIndex]['text'];
-                              tweetsGotten++;
+                              //db_print(tweetsList[tweetIndex]);
+                              let userTweet = { screenName: tweetsList[tweetIndex].user.screen_name,
+                                                name: tweetsList[tweetIndex].user.name,
+                                                text: tweetsList[tweetIndex].text,
+                                                profileImage: tweetsList[tweetIndex].user.profile_image_url,
+                                                tweetURL: tweetsList[tweetIndex].user.url
+                              };
                               if(tweetsGotten <= maxTweets) {
-                                tweetResults.push(tweetText);
+                                tweetResults.push(userTweet);
                               }
+                              tweetsGotten++;
                           }
 
                           if (tweetResults.length == 0) {
                               tweetResults.push("No tweets found.");
                           }
 
+                          //db_print(content.articles);
                           let curArticleResult = {
                               articleName: content.articles[articleCount].title,
-                              articleDescription: content.articles[articleCount].description,
-                              tweetResults: tweetResults
+                              articleTagline: content.articles[articleCount].description,
+                              articleDescription: content.articles[articleCount].content,
+                              articlePicture: content.articles[articleCount].urlToImage,
+                              articleURL: content.articles[articleCount].url,
+                              tweets: tweetResults,
+                              numTweets: tweetsGotten
+
                           }
 
-
                           //db_print("The twitter results are: " + tweetResults);
-
                           articles.push(curArticleResult);
 
-                          allArticleResults.article[articleCount] = curArticleResult;
+                          // timeout to await results
+                          let wait = setTimeout(() => {
+                              clearTimeout(wait);
+                              return resolve(); // SUCCESS after timeout
+                          }, 200)
                       });
-
-                      return resolve(); // SUCCESS
                   } // end of if statement
               }); //end of aylien api
-
           }); // end of promise
       }
 
       // After all promises fulfilled, then send results.
       Promise.all(promises)
           .then(function(){
-              db_print("Results are: " );
-              db_print(articles);
+              //db_print("Results are: " );
+              //db_print(articles);
               const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-              //res.send(allArticleResults);
-
-              res.render(queryPath, {articles: articles});})
+              res.render(queryPath, {articles: articles, cityQuery: newsSearch});})
           .catch(function() { console.log("error")} );
 
 
