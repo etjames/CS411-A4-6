@@ -6,9 +6,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fccd03f-b637-4546-ac35-f68d0e963e19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/oauth.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/oauth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/original_oauth.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/original_oauth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/query.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/query.ejs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/query.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="102" column="18" selection-start-line="102" selection-start-column="18" selection-end-line="102" selection-end-column="18" />
+            <state relative-caret-position="323">
+              <caret line="94" column="27" selection-start-line="94" selection-start-column="27" selection-end-line="94" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -190,7 +187,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60466000" />
+    <option name="totallyTimeSpent" value="60548000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1872" height="1096" extended-state="6" />
@@ -308,8 +305,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/query.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="102" column="18" selection-start-line="102" selection-start-column="18" selection-end-line="102" selection-end-column="18" />
+        <state relative-caret-position="323">
+          <caret line="94" column="27" selection-start-line="94" selection-start-column="27" selection-end-line="94" selection-end-column="27" />
         </state>
       </provider>
     </entry>
