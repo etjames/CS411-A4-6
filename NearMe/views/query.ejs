@@ -40,15 +40,15 @@
                         </div>
 
                         <div class="twitter-hide-button">
-                            <label for="showHide">Twitter Comments</label>
-                            <input type="submit" value="v" onclick="hideTweets(this.parentNode.nextElementSibling)">
+                            <label for="showHide"><h3 id="tweet-label">Tweets</h3></label>
+                            <input id="hide-button" type="submit" value="v" onclick="hideTweets(this.parentNode.nextElementSibling)">
                         </div>
-                        <div class="tweet-content">
+                        <div class="tweet-content" >
                             <% article.tweets.forEach(function(tweet, index){ %>
                              <div class="tweet">
                                 <% if (article.numTweets > 0) { %>
-                                    <p> <img src= <%= tweet.profileImage %> width="20px" height="20px"></img> <%= tweet.name %> | @<%= tweet.screenName %>  </p>
-                                    <p> <%= tweet.text %></p>
+                                     <p id="smallText"> <img src= <%= tweet.profileImage %> width="20px" height="20px"></img> <span id="tweet-name"> <%= tweet.name %></span> | @<%= tweet.screenName %>  </p>
+                                    <p id="smallText2"> <%= tweet.text %></p>
                                 <% } else{ %>
                                         <p> No Tweets Found </p>
                                 <% } %>
@@ -68,35 +68,32 @@
 <script>
     //function for hiding tweets
     function hideTweets(hidingElement) {
-        if(hidingElement.style.display === "none") {
-            hidingElement.style.display = "block";
+        if(hidingElement.style.display === "block") {
+            hidingElement.style.display = "none";
         }
         else {
-            hidingElement.style.display="none";
+            hidingElement.style.display="block";
         }
     }
 </script>
 
 </html>
 <style>
-
-    /* Shown */
-    div.showHide {
-        display: inline;
-    }
-    /* Hidden */
-    input[type=checkbox]:checked ~ div.showHide {
-        display: none;
+    .twitter-hide-button {
+        padding:  0.2rem 1rem 0.2rem 1rem;
+        border-radius:1rem;
     }
 
     .topnav {
-        background-color: none;
+        background-color: deepskyblue;
         overflow: hidden;
         width: 100%;
-        margin-left: -10px;
-        margin-top: -11px;
+        margin: 0;
     }
-
+    .tweet-content{
+        margin-left:1rem;
+        display:none;
+    }
     /* Style the links inside the navigation bar */
     .topnav a {
         float: left;
@@ -128,10 +125,10 @@
 
     .article-wrapper {
         display:flex; flex-direction:column;
-        border: 1px solid black;
+        border: none;
         border-radius:1rem;
-        box-shadow: 5px 5px #888888;
-        margin-bottom: 1rem;
+        box-shadow: 5px 5px 20px #000;
+        margin-bottom: 2rem;
         padding: 1rem 1rem 1rem 1rem;
         text-align:left;
         background: white;
@@ -150,6 +147,26 @@
         padding-right: 1rem;
     }
 
+
+    #smallText {
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    #smallText2 {
+        margin:0 !important;
+        padding:0.1rem 0 0 1.4rem  !important;
+    }
+
+    .tweet {
+        margin-top:0.5rem;
+    }
+
+    #hide-button {
+        background:none;
+        border:none;
+    }
+
     html {
         display:table;
         height:100%;
@@ -157,8 +174,9 @@
     }
 
     body {
-        background-image: linear-gradient(#00C9FF, #92FE9D);
+        background:#f9f9f9;
         font-family: Arial, Helvetica, sans-serif;
+        margin:0 !important;
     }
 
     h1 {
