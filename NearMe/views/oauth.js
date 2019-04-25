@@ -173,22 +173,9 @@ app.post('/', function async(req, res, profile) {
   const month = date.getMonth() + 1; //starts at 0 for january
   db_print("Today is " + year + "-" + month  + "-" + day);
 
-    let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
-        '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
+  let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
+    '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
 
-  let threeApiResults = {
-      articleName: String,
-      articleDescription: String,
-      tweetResults: String
-  }
-
-
-    //we will store the articles/tweets here:
-  let allArticleResults = {
-      article: {
-
-      }
-  }; //of type threeApiResults
 
   let articles = [];
 
@@ -258,51 +245,60 @@ app.post('/', function async(req, res, profile) {
                       //now we try to get a twitter call
                       twitterClient.get('search/tweets', {q: twitterQuery2}, function async(error, tweets, response) {
                           let tweetsList = tweets['statuses'];
-                          let tweetResults = [];
                           let maxTweets = 3;
+                          let tweetResults = [];
                           let tweetsGotten = 0;
                           for (let tweetIndex in tweetsList) {
-                              let tweetText = tweetsList[tweetIndex]['text'];
-                              tweetsGotten++;
+                              //db_print(tweetsList[tweetIndex]);
+                              let userTweet = { screenName: tweetsList[tweetIndex].user.screen_name,
+                                                name: tweetsList[tweetIndex].user.name,
+                                                text: tweetsList[tweetIndex].text,
+                                                profileImage: tweetsList[tweetIndex].user.profile_image_url,
+                                                tweetURL: tweetsList[tweetIndex].user.url
+                              };
                               if(tweetsGotten <= maxTweets) {
-                                tweetResults.push(tweetText);
+                                tweetResults.push(userTweet);
                               }
+                              tweetsGotten++;
                           }
 
                           if (tweetResults.length == 0) {
                               tweetResults.push("No tweets found.");
                           }
 
+                          //db_print(content.articles);
                           let curArticleResult = {
                               articleName: content.articles[articleCount].title,
-                              articleDescription: content.articles[articleCount].description,
-                              tweetResults: tweetResults
+                              articleTagline: content.articles[articleCount].description,
+                              articleDescription: content.articles[articleCount].content,
+                              articlePicture: content.articles[articleCount].urlToImage,
+                              articleURL: content.articles[articleCount].url,
+                              tweets: tweetResults,
+                              numTweets: tweetsGotten
+
                           }
 
-
                           //db_print("The twitter results are: " + tweetResults);
-
                           articles.push(curArticleResult);
 
-                          allArticleResults.article[articleCount] = curArticleResult;
+                          // timeout to await results
+                          let wait = setTimeout(() => {
+                              clearTimeout(wait);
+                              return resolve(); // SUCCESS after timeout
+                          }, 200)
                       });
-
-                      return resolve(); // SUCCESS
                   } // end of if statement
               }); //end of aylien api
-
           }); // end of promise
       }
 
       // After all promises fulfilled, then send results.
       Promise.all(promises)
           .then(function(){
-              db_print("Results are: " );
-              db_print(articles);
+              //db_print("Results are: " );
+              //db_print(articles);
               const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
-              //res.send(allArticleResults);
-
-              res.render(queryPath, {articles: articles});})
+              res.render(queryPath, {articles: articles, cityQuery: newsSearch});})
           .catch(function() { console.log("error")} );
 
 
