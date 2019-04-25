@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>value = localStorage["key"];</script>
-        <link href="{{root}}public/stylesheets/style.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
     </head>
 
     <body>
         <div class="topnav">
-            <a href="/">New Search</a>
+            <a href="/">Home</a>
             <a href="/logout">Logout</a>
             <div class="dropdown" style="float:right;">
                 <button class="dropbtn">Profile
@@ -23,7 +23,9 @@
         </div>
 
         <div class="homepage testpage" align="center">
-          <h1>Results for <%= cityQuery %></h1>
+            <div class="result-header">
+                <h1 id="res-header">Results for <%= cityQuery %>...</h1>
+            </div>
 
             <div class="results-wrapper">
                 <% articles.forEach(function(article, index){ %>
@@ -33,9 +35,9 @@
                                 <img src= <%= article.articlePicture %> alt="No Photos" width="100px" height="100px" object-fit="cover"></img>
                             </div>
                             <div class="article-description">
-                                <h3><%= article.articleName %></h3>
+                                <h3 id="article-title"><%= article.articleName %></h3>
                                 <p><%= article.articleTagline %></p>
-                                <p><a href="<%= article.articleURL %>" > Read more... </a></p>
+                                <p><a href="<%= article.articleURL %>" id="read-more"> Read more... </a></p>
                             </div>
                         </div>
 
@@ -45,15 +47,14 @@
                         </div>
                         <div class="tweet-content" >
                             <% article.tweets.forEach(function(tweet, index){ %>
-                             <div class="tweet">
-                                <% if (article.numTweets > 0) { %>
-                                     <p id="smallText"> <img src= <%= tweet.profileImage %> width="20px" height="20px"></img> <span id="tweet-name"> <%= tweet.name %></span> | @<%= tweet.screenName %>  </p>
-                                    <p id="smallText2"> <%= tweet.text %></p>
-                                <% } else{ %>
-                                        <p> No Tweets Found </p>
-                                <% } %>
-
-                             </div>
+                                <div class="tweet" >
+                                    <% if (article.numTweets > 0) { %>
+                                         <p id="smallText"> <img src= <%= tweet.profileImage %> width="20px" height="20px"></img> <span id="tweet-name"> <%= tweet.name %></span> | @<%= tweet.screenName %>  </p>
+                                        <p id="smallText2"> <%= tweet.text %></p>
+                                    <% } else{ %>
+                                            <p> No Tweets Found </p>
+                                    <% } %>
+                                </div>
                              <% }); %>
                         </div>
 
@@ -79,6 +80,17 @@
 
 </html>
 <style>
+    #read-more {
+        text-decoration: none;
+        color:gray;
+    }
+    #res-header {
+        color: rgb(61, 180, 235);
+        font-size: 40px !important;
+        padding:0 !important;
+        margin:0 !important;
+    }
+
     .twitter-hide-button {
         padding:  0.2rem 1rem 0.2rem 1rem;
         border-radius:1rem;
@@ -105,6 +117,9 @@
 
     }
 
+    #tweet-name {
+        font-weight:bold;
+    }
     /* Change the color of links on hover */
     .topnav a:hover {
         background-color: none;
@@ -135,7 +150,7 @@
     }
 
     .results-wrapper {
-        width:50%;
+        width:45%;
     }
 
     .article-content {
@@ -145,6 +160,7 @@
 
     .article-picture {
         padding-right: 1rem;
+        padding-bottom:16px;
     }
 
 
@@ -156,6 +172,10 @@
     #smallText2 {
         margin:0 !important;
         padding:0.1rem 0 0 1.4rem  !important;
+    }
+
+    #article-title {
+        margin:0 !important;
     }
 
     .tweet {
@@ -175,13 +195,14 @@
 
     body {
         background:#f9f9f9;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Nunito Sans', sans-serif;
         margin:0 !important;
     }
 
-    h1 {
-        color: rgb(61, 180, 235);
-        font: 60px "Arial";
+    .result-header {
+        padding-top:5rem;
+        padding-bottom:2rem;
+
     }
 
     .dropdown {
@@ -197,7 +218,6 @@
         outline: none;
         color: white;
         background-color: inherit;
-        font-family: inherit;
     }
 
     .navbar a:hover, .dropdown:hover .dropbtn {

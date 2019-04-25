@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/views/query.ejs" line="59" mnemonic="5" />
-    <bookmark url="file://$PROJECT_DIR$/views/oauth.js" line="271" />
+    <bookmark url="file://$PROJECT_DIR$/views/query.ejs" line="60" mnemonic="5" />
+    <bookmark url="file://$PROJECT_DIR$/views/oauth.js" line="286" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fccd03f-b637-4546-ac35-f68d0e963e19" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/views/homepage.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/homepage.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/oauth.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/oauth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/query.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/query.ejs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -17,22 +19,25 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="NearMe" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/query.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="72" column="9" lean-forward="true" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+            <state relative-caret-position="1337">
+              <caret line="215" column="12" selection-start-line="215" selection-start-column="8" selection-end-line="215" selection-end-column="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/oauth.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/homepage.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="261" column="53" selection-start-line="261" selection-start-column="53" selection-end-line="261" selection-end-column="53" />
+            <state relative-caret-position="220">
+              <caret line="199" column="89" selection-start-line="199" selection-start-column="89" selection-end-line="199" selection-end-column="89" />
             </state>
           </provider>
         </entry>
@@ -48,7 +53,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>body</find>
       <find>console.log</find>
       <find>res.send</find>
       <find>article</find>
@@ -56,9 +60,14 @@
       <find>newURL</find>
       <find>newurl</find>
       <find>url</find>
-      <find>maxTwee</find>
       <find>tweet-label</find>
       <find>tweet-content</find>
+      <find>maxTwee</find>
+      <find>width:</find>
+      <find>testpage</find>
+      <find>body</find>
+      <find>searchField</find>
+      <find>font</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -71,7 +80,6 @@
         <option value="$PROJECT_DIR$/views/homepage.html" />
         <option value="$PROJECT_DIR$/views/testpage.ejs" />
         <option value="$PROJECT_DIR$/views/query.html" />
-        <option value="$PROJECT_DIR$/views/homepage.ejs" />
         <option value="$PROJECT_DIR$/views/homepage.js" />
         <option value="$PROJECT_DIR$/config/config.json" />
         <option value="$PROJECT_DIR$/views/login.ejs" />
@@ -80,6 +88,7 @@
         <option value="$PROJECT_DIR$/views/original_oauth.js" />
         <option value="$PROJECT_DIR$/views/oauth.js" />
         <option value="$PROJECT_DIR$/views/query.ejs" />
+        <option value="$PROJECT_DIR$/views/homepage.ejs" />
       </list>
     </option>
   </component>
@@ -189,16 +198,16 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65403000" />
+    <option name="totallyTimeSpent" value="69148000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1872" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19411123" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49912435" visible="true" weight="0.19411123" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Favorites" order="3" sideWeight="0.50087565" side_tool="true" visible="true" weight="0.19411123" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32988167" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49945474" weight="0.29283488" />
@@ -246,13 +255,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/homepage.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="29" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/users.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -291,13 +293,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/oauth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="261" column="53" selection-start-line="261" selection-start-column="53" selection-end-line="261" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -305,10 +300,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/oauth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-256">
+          <caret line="273" column="72" selection-start-line="273" selection-start-column="72" selection-end-line="273" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/query.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="72" column="9" lean-forward="true" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+        <state relative-caret-position="1337">
+          <caret line="215" column="12" selection-start-line="215" selection-start-column="8" selection-end-line="215" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/homepage.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="199" column="89" selection-start-line="199" selection-start-column="89" selection-end-line="199" selection-end-column="89" />
         </state>
       </provider>
     </entry>
