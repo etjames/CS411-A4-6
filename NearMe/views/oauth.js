@@ -6,6 +6,7 @@ const express = require('express'),
     cookieSession = require('cookie-session');
 
 const User = require('../nearmedb');
+//const map_page = require('../map_folder/maps.ejs');
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -133,6 +134,12 @@ function listToString(array) {
     }
     return returnString;
 }
+//for displaying maps search
+app.get('/maps', function (req, res) {
+    console.log('yoooo');
+    const map_page = (path.join(__dirname , '../map_folder' ,'maps.ejs'));
+    res.render(map_page);
+  })
 
 //for displaying homepage
 app.get('/', function (req, res) {
@@ -150,7 +157,7 @@ app.post('/', function async(req, res, profile) {
         function(err, user, token) {
             if (favorite === "on") {
                 console.log("ho " + token);
-                connection.user.update({id: profile.id }, { $push: { favorites: newsSearch  } },
+                User.update({id: profile.id }, { $push: { favorites: newsSearch  } },
                     function (error, success) {
                         if (error) {
                             console.log(error);
