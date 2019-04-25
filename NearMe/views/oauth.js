@@ -28,6 +28,16 @@ app.use(passport.initialize());
 
 app.set('view engine', 'ejs');
 
+// check mark code
+/*app.post('/clicked', (req, res) => {
+    db.collection('users').save(newsSearch), (err, result) => {
+      if (err) {
+        return console.log(err);
+      }
+      console.log('click added to db');
+      res.render("query");
+    }});
+*/
 
 app.get('/login',
   function(req, res){
@@ -143,13 +153,18 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function async(req, res) {
+app.post('/', function async(req, res, profile) {
   //get user input
   //var elementCheckBox = window.document.getElementById("favorite");
   const newsSearch = req.body.searchField;
-  //if (elementCheckBox[0].checked) {
-    //db.users.update({id:token}, {$set: {"favorites": newsSearch}})
-  //}
+  let favorite = req.body.favorite;
+  User.findOne({'id': profile.id}, 
+        function(err, user, token) {
+            if (favorite === "on") {
+                console.log('smd')
+                User.update({email: "ctipton@bu.edu"}, {$push: {favorites: "Boston"}})
+                
+  }});
 
   //get date
   const date = new Date();
