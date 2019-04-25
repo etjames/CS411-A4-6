@@ -267,6 +267,7 @@ app.post('/', function async(req, res) {
                         let tweetsList = tweets['statuses'];
                         let tweetResults = [];
                         for(let tweetIndex in tweetsList) {
+                            db_print(tweetsList[tweetIndex]);
                             let tweetText = tweetsList[tweetIndex]['text'];
                             //console.log("tweetText: " + tweetText);
                             tweetResults.push(tweetText);
@@ -278,7 +279,7 @@ app.post('/', function async(req, res) {
                             articleDescription: content.articles[articleCount].description,
                             tweetResults: listToString(tweetResults)
                         }
-                        db_print("The twitter results are: " + tweetResults);
+                        //db_print("The twitter results are: " + tweetResults);
 
                         allArticleResults.article[articleCount] = curArticleResult;
 

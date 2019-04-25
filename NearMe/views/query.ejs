@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>value = localStorage["key"];</script>
+        <link href="{{root}}public/stylesheets/style.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -22,16 +23,39 @@
         </div>
 
         <div class="homepage testpage" align="center">
-          <h1>Search Results</h1>
+          <h1>Search results for <%= cityQuery %></h1>
 
+            <div class="results-wrapper">
+                <% articles.forEach(function(article, index){ %>
+                    <div class="article-wrapper">
+                        <div class="article-content">
+                            <div class="article-picture">
+                                <img src= <%= article.articlePicture %> alt="No Photos" width="100px" height="100px" object-fit="cover"></img>
+                            </div>
+                            <div class="article-description">
+                                <h3><%= article.articleName %></h3>
+                                <p><%= article.articleTagline %></p>
+                                <p><a href="<%= article.articleURL %>" > Read more... </a></p>
+                            </div>
+                        </div>
 
-            <% articles.forEach(function(article, index){ %>
-                <div class="article1">
-                    <h3><%= article.articleName %></h3>
-                    <p><%= article.articleDescription %></p>
-                    <p>Tweets: <%= article.tweetResults %></p><br>
-                </div>
-            <% }); %>
+                        <div class="tweet-content" id="tweets">
+                            <% article.tweets.forEach(function(tweet, index){ %>
+                             <div class="tweet">
+                                <% if (article.numTweets > 0) { %>
+                                    <p> <img src= <%= tweet.profileImage %> width="20px" height="20px"></img> <%= tweet.name %> | @<%= tweet.screenName %>  </p>
+                                    <p> <%= tweet.text %></p>
+                                <% } else{ %>
+                                        <p> No Tweets Found </p>
+                                <% } %>
+
+                             </div>
+                             <% }); %>
+                        </div>
+
+                    </div>
+                <% }); %>
+            </div>
 
 
         </div>
@@ -65,13 +89,30 @@
         color: black;
     }
 
-
-    .article1 {
+    .article-wrapper {
+        display:flex; flex-direction:column;
         border: 1px solid black;
         box-shadow: 5px 5px #888888;
-        margin-bottom: 10px;
-        width: 65%;
+        margin-bottom: 1rem;
+        padding: 1rem 1rem 1rem 1rem;
+        text-align:left;
+        background: white;
     }
+
+    .results-wrapper {
+        width:50%;
+    }
+
+    .article-content {
+        display:flex;
+        text-align:left;
+    }
+
+
+    .article-picture {
+        padding-right: 1rem;
+    }
+
 
     html {
         display:table;
@@ -82,7 +123,6 @@
     body {
         background-image: linear-gradient(#00C9FF, #92FE9D);
         font-family: Arial, Helvetica, sans-serif;
-        content-align: center;
     }
 
 
