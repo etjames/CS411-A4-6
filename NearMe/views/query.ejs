@@ -1,80 +1,144 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>News Query Results</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>value = localStorage["key"];</script>
+    </head>
 
-<div class="topnav">
-        <a href="/homepage">New Search</a>
-        <a href="/logout">Logout</a>
-</div>
+    <body>
+        <div class="topnav">
+            <a href="/">New Search</a>
+            <a href="/logout">Logout</a>
+            <div class="dropdown" style="float:right;">
+                <button class="dropbtn">Profile
+                </button>
+                <div class="dropdown-content">
+                    <a href="#">Favorite Locations</a>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-<script>
-  let title1 = "<%= title1 %>";
-  let description1 = "<%= description1 %>";
-  let keywords1 = "<%= keywords1 %>";
-  let tweets1 =  "<%= tweets1 %>";
-  </script>
-
-<body>
-<div class="homepage testpage">
-    <h1>NEWS API RESULTS</h1>
-    <div id="article1">
-        <h3> <%= title1 %> </h3>
-        <p>Description: <%= description1 %> </p>
-        <p>Keywords: <%= keywords1 %> </p>
-        <p>Tweets: <%= tweets1 %></p>
-    </div>
-
-</div>
+        <div class="homepage testpage" align="center">
+          <h1>Search Results</h1>
 
 
-</body>
+            <% articles.forEach(function(article, index){ %>
+                <div class="article1">
+                    <h3><%= article.articleName %></h3>
+                    <p><%= article.articleDescription %></p>
+                    <p>Tweets: <%= article.tweetResults %></p><br>
+                </div>
+            <% }); %>
+
+
+        </div>
+    </body>
+
+</html>
 <style>
 
-        .topnav {
-            background-color: #333;
-            overflow: hidden;
-            width: 400%;
-            margin-left: -10px;
-            margin-top: -11px;
-          }
-          
-          /* Style the links inside the navigation bar */
-          .topnav a {
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-            border-right: 1px solid #bbb;
-          }
-          
-          /* Change the color of links on hover */
-          .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-          }
-    .testpage
-    {
-    display: block;
-    color: black;
-    text-align: center;
-    align-content: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    .topnav {
+        background-color: none;
+        overflow: hidden;
+        width: 100%;
+        margin-left: -10px;
+        margin-top: -11px;
     }
+
+    /* Style the links inside the navigation bar */
+    .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+
+    }
+
+    /* Change the color of links on hover */
+    .topnav a:hover {
+        background-color: none;
+        color: black;
+    }
+
+
+    .article1 {
+        border: 1px solid black;
+        box-shadow: 5px 5px #888888;
+        margin-bottom: 10px;
+        width: 65%;
+    }
+
+    html {
+        display:table;
+        height:100%;
+        overflow-y: scroll;
+    }
+
     body {
         background-image: linear-gradient(#00C9FF, #92FE9D);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        width: 400px;
-        height: 400px;
+        font-family: Arial, Helvetica, sans-serif;
+        content-align: center;
     }
 
 
     h1 {
         color: rgb(61, 180, 235);
-        font: 60px, "Arial";
+        font: 60px "Arial";
+    }
+
+    .dropdown {
+        float: right;
+        overflow: hidden;
+        padding: 14px 16px;
+
+    }
+
+    .dropdown .dropbtn {
+        font-size: 17px;
+        border: none;
+        outline: none;
+        color: white;
+        background-color: inherit;
+        font-family: inherit;
+    }
+
+    .navbar a:hover, .dropdown:hover .dropbtn {
+        background-color: none;
+
+    }
+
+    .dropdown-content {
+        display: none;
+        float: hidden;
+        position: absolute;
+        right: 0;
+        background-color: #8ee596;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        display: block;
+        float: hidden;
+        color: white;
+        text-decoration: none;
+        text-align: left;
+    }
+
+    .dropdown-content a:hover {
+        background-color: black;
+        text-align: left;
+        color: white;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
     }
 
 
