@@ -8,7 +8,7 @@ var userSchema = new Schema({
   id: String,
   name: String,
   email: String,
-  favorites: String
+  favorites: Array
 });
 
 // Compile model from schema
