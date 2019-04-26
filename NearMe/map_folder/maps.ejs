@@ -48,23 +48,40 @@
     </head>
     <body>
     <!--The div element for the map -->
-    <div id="latclicked", style="display: none;"></div>
-    <div id="longclicked", style="display: none;"></div>
+    <div id="latclicked" style="display: none;"></div>
+    <div id="longclicked" style="display: none;"></div>
 
 
-    <div id="latmoved", style="display: none;"></div>
-    <div id="longmoved", style="display: none;"></div>
+    <div id="latmoved" style="display: none;"></div>
+    <div id="longmoved" style="display: none;"></div>
+
+
 
 
     <div id="floating-panel">
-        <input onclick="deleteMarkers();" type=button value="Remove Current Pin">
-        <input id="submit" type="button" value="Search">
+
+            <input onclick="deleteMarkers();" type=button value="Deselect Current Position">
+            <input id="submit" type="button" value="Select Current Position">
+
     </div>
+
     <div id="map"></div>
+
+
+    <form action="/citySearch" method="get">
+         <div value = "city" id="city" name = "city", style="display: none;"></div>
+        <!--<div type="text" id="city" name="city" placeholder="City"> -->
+        <br>
+       <!-- <input type=button value="Search Using Current Location"> -->
+        <a href="/citySearch">Search this City</a>
+    </form>
+
+
+
     <script>
         var latlng;
         var markers = [];
-        var city;
+        var cityName;
 
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -125,7 +142,8 @@
                                 if (results[0].address_components[i].types[b] == "locality" || (results[0].address_components[i].types[b] == 'administrative_area_level_1' && flag == 0)) {
                                     //this is the object you are looking for
                                     var cityitem= results[0].address_components[i];
-                                    city = cityitem.long_name
+                                    cityName = cityitem.long_name
+                                    document.getElementById('city').innerHTML = cityName;
                                     flag = 1;
                                     console.log(city);
                                     break;
@@ -155,10 +173,14 @@
 
     <!--map goes here-->
     <form action="/" method="post">
-        <br>
-        <br>
+
+
         <a href="/homepage">Search by Keyword instead</a>
+
     </form>
+
+
+
 </div>
 
 <body>
