@@ -1,85 +1,81 @@
-
 <head>
     <!-- <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> -->
 </head>
 
 <body>
-    <div class="topnav">
-        <a href="/logout">Logout</a>
-        <div class="dropdown" style="float:right;">
-            <button class="dropbtn">Profile
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Favorite Locations</a>
-                </select>
-            </div>
+<div class="topnav">
+    <a href="/logout">Logout</a>
+    <div class="dropdown" style="float:right;">
+        <button class="dropbtn">Profile
+        </button>
+        <div class="dropdown-content">
+            <a href="#">Favorite Locations</a>
+            </select>
         </div>
     </div>
+</div>
 
-    <div id="loading"></div>
+<div id="loading"></div>
 
-    <div class="homepage testpage" id="container">
-        <h1>Search by Keyword</h1>
-        <form action="/" method="post">
+<div class="homepage testpage" id="container">
+    <h1>Search by Keyword</h1>
+    <form action="/" method="post">
 
-            <div class="input-wrapper">
-                <div class="input-area">
-                    <input type="text" id="searchField" name="searchField" placeholder="City">
-                    <button class="myButton" onclick="loading();">Go</button>
-                </div>
-                <div class="favorite">
-                    <input type="checkbox" name="favorite" > Add to Favorite<br>
-                </div>
+        <div class="input-wrapper">
+            <div class="input-area">
+                <input type="text" id="searchField" name="searchField" placeholder="City">
+                <button class="myButton" onclick="loading();">Go</button>
             </div>
+            <div class="favorite">
+                <input type="checkbox" name="favorite" > Add to Favorite<br>
+            </div>
+        </div>
         <br>
         <br>
         <br>
         <a href="/maps">Search by Map instead</a>
-        </form>
-    </div>
+    </form>
+</div>
 
 </body>
 
 
-  <style>
-  .testpage {
-    display: block;
-    color: black;
-    text-align: center;
-    align-content: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  body {
-      background:#f9f9f9;
-      font-family: 'Nunito Sans', sans-serif !important;
-      margin:0 !important;
-  }
-  
-  
-  h1 {
-      color: rgb(61, 180, 235);
-      font-family: 'Nunito Sans', sans-serif !important;
-      font-weight: bold;
-      font-size: 60px;
-  }
+<style>
+    .testpage {
+        display: block;
+        color: black;
+        text-align: center;
+        align-content: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    body {
+        background:#f9f9f9;
+        font-family: 'Nunito Sans', sans-serif !important;
+        margin:0 !important;
+    }
 
-  #searchField{
-      height:50px;
-      width:190px;
-      font-size:22px;
-      text-align: center;
-  }
 
-  .input-wrapper{
-      display:flex; flex-direction: column;
-  }
-
-  .favorite {
-      padding-top:1rem;
-  }
+    h1 {
+        color: rgb(61, 180, 235);
+        font-family: 'Nunito Sans', sans-serif !important;
+        font-weight: bold;
+        font-size: 60px;
+    }
+    #searchField{
+        height:50px;
+        width:190px;
+        font-size:22px;
+        text-align: center;
+    }
+    .input-wrapper{
+        display:flex; flex-direction: column;
+    }
+    .favorite {
+        padding-top:1rem;
+    }
     .myButton {
         -moz-box-shadow: 0px 8px 26px -1px #276873;
         -webkit-box-shadow: 0px 8px 26px -1px #276873;
@@ -104,7 +100,7 @@
         text-shadow:0px 0px 50px #3d768a;
     }
     .myButton:hover {
-        
+
         background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
         background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
         background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
@@ -117,102 +113,83 @@
         position:relative;
         top:1px;
     }
-
-
-  .topnav {
-      background-color: deepskyblue;
-      overflow: hidden;
-      width: 100%;
-      margin: 0;
-  }
-
-  /* Style the links inside the navigation bar */
-  .topnav a {
-      float: left;
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-
-  }
-
-  /* Change the color of links on hover */
-  .topnav a:hover {
-      background-color: none;
-      color: black;
-  }
-
-  .dropdown {
-      float: right;
-      overflow: hidden;
-      padding: 14px 16px;
-
-  }
-
-  .dropdown .dropbtn {
-      font-size: 17px;
-      border: none;
-      outline: none;
-      color: white;
-      background-color: inherit;
-  }
-
-  .navbar a:hover, .dropdown:hover .dropbtn {
-      background-color: none;
-
-
-  }
-
-  .dropdown-content {
-      display: none;
-      float: hidden;
-      position: absolute;
-      right: 0;
-      background-color: rgb(0, 0, 0);
-      color: pink;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-  }
-
-  .dropdown-content a {
-      display: block;
-      float: hidden;
-      color: white;
-      text-decoration: none;
-      text-align: left;
-  }
-
-  .dropdown-content a:hover {
-      background-color: deepskyblue;
-      text-align: left;
-      color: white;
-  }
-
-  .dropdown:hover .dropdown-content {
-      display: block;
-  }
-
-  div#loading {
-      position: fixed; /* or absolute */
-      top: 30%;
-      left: 44%;
-      width: 400px;
-      height: 400px;
-      background: url("https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif") no-repeat;
-      cursor: wait;
-      display:none;
-  }
-
-  </style>
-  <script>
-      src = "oauth.js";
-      type="text/javascript";
-
-      function loading(){
-          document.getElementById("loading").style.display = "block";
-          document.getElementById("container").style.display = "none";
-      }
-
-  </script>
+    .topnav {
+        background-color: deepskyblue;
+        overflow: hidden;
+        width: 100%;
+        margin: 0;
+    }
+    /* Style the links inside the navigation bar */
+    .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+    /* Change the color of links on hover */
+    .topnav a:hover {
+        background-color: none;
+        color: black;
+    }
+    .dropdown {
+        float: right;
+        overflow: hidden;
+        padding: 14px 16px;
+    }
+    .dropdown .dropbtn {
+        font-size: 17px;
+        border: none;
+        outline: none;
+        color: white;
+        background-color: inherit;
+    }
+    .navbar a:hover, .dropdown:hover .dropbtn {
+        background-color: none;
+    }
+    .dropdown-content {
+        display: none;
+        float: hidden;
+        position: absolute;
+        right: 0;
+        background-color: rgb(0, 0, 0);
+        color: pink;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+    .dropdown-content a {
+        display: block;
+        float: hidden;
+        color: white;
+        text-decoration: none;
+        text-align: left;
+    }
+    .dropdown-content a:hover {
+        background-color: deepskyblue;
+        text-align: left;
+        color: white;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    div#loading {
+        position: fixed; /* or absolute */
+        top: 30%;
+        left: 44%;
+        width: 400px;
+        height: 400px;
+        background: url("https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif") no-repeat;
+        cursor: wait;
+        display:none;
+    }
+</style>
+<script>
+    src = "oauth.js";
+    type="text/javascript";
+    function loading(){
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("container").style.display = "none";
+    }
+</script>
