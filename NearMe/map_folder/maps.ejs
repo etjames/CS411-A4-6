@@ -1,205 +1,167 @@
 
 <html>
     <head>
-       <!-- <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
         <script type="text/javascript"></script>
-    </head>
-<div class="homepage testpage">
-    <h1>Search by Map</h1>
-
-    <head>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
-        <style>
-            /* Always set the map height explicitly to define the size of the div
-             * element that contains the map. */
-            #map {
-                height: 400px;
-                width: 700px;
-            }
-            #floating-panel {
-                position: absolute;
-                top: 10px;
-                left: 25%;
-                z-index: 5;
-                background-color: #fff;
-                padding: 5px;
-                border: 1px solid #999;
-                text-align: center;
-                font-family: 'Roboto','sans-serif';
-                line-height: 30px;
-                padding-left: 10px;
-            }
-            #floating-panel {
-                position: absolute;
-                top: 500px;
-                left: 50%;
-                margin-left: -180px;
-                width: 350px;
-                z-index: 5;
-                background-color: #fff;
-                padding: 5px;
-                border: 1px solid #999;
-            }
-            #latlng {
-                width: 225px;
-            }
-        </style>
     </head>
     <body>
-    <!--The div element for the map -->
-    <div id="latclicked" style="display: none;"></div>
-    <div id="longclicked" style="display: none;"></div>
+
+        <div class="topnav">
+            <a href="/">Home</a>
+            <a href="/logout">Logout</a>
+            <div class="dropdown" style="float:right;">
+                <button class="dropbtn">Profile
+                </button>
+                <div class="dropdown-content">
+                    <a href="/">Favorite Locations</a>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading"></div>
+
+        <div class="homepage testpage" id="map-container">
+            <h1>Search by Map</h1>
+            <!--The div element for the map -->
+            <div id="latclicked" style="display: none;"></div>
+            <div id="longclicked" style="display: none;"></div>
 
 
-    <div id="latmoved" style="display: none;"></div>
-    <div id="longmoved" style="display: none;"></div>
+            <div id="latmoved" style="display: none;"></div>
+            <div id="longmoved" style="display: none;"></div>
 
 
+            <div id="floating-panel">
+                <input onclick="deleteMarkers();" type=button value="Deselect Current Position">
+                <input id="submit" type="button" value="Select Current Position">
+            </div>
 
+            <div id="map"></div>
 
-    <div id="floating-panel">
+            <form action="/" method="post">
+                <input type="text" default="" id="searchField" name ="searchField", style="display: none;" >
+                <!--<div type="text" id="city" name="city" placeholder="City"> -->
+                <br>
+               <!-- <input type=button value="Search Using Current Location"> -->
+                <button class="myButton" onclick="loading();">Search this City</button>
+            </form>
 
-            <input onclick="deleteMarkers();" type=button value="Deselect Current Position">
-            <input id="submit" type="button" value="Select Current Position">
+            <form action="/" method="post">
+                <a href="/homepage">Search by Keyword instead</a>
+            </form>
+        </div>
 
-    </div>
+    </body>
+</html>
 
-    <div id="map"></div>
+<script>
+    var latlng;
+    var markers = [];
+    var cityName;
 
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: {lat: 42.3601, lng: -71.0589},
+            disableDoubleClickZoom: true,
+        });
 
-    <form action="/citySearch" method="get">
-         <div value = "city" id="city" name = "city", style="display: none;"></div>
-        <!--<div type="text" id="city" name="city" placeholder="City"> -->
-        <br>
-       <!-- <input type=button value="Search Using Current Location"> -->
-        <a href="/citySearch">Search this City</a>
-    </form>
+        google.maps.event.addListener(map,'click',function(event) {
+            document.getElementById('latclicked').innerHTML = event.latLng.lat();
+            document.getElementById('longclicked').innerHTML =  event.latLng.lng();
+            latlng =  {lat: parseFloat(event.latLng.lat()), lng: parseFloat(event.latLng.lng())};
 
-
-
-    <script>
-        var latlng;
-        var markers = [];
-        var cityName;
-
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8,
-                center: {lat: 42.3601, lng: -71.0589},
-                disableDoubleClickZoom: true,
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
             });
-
-            google.maps.event.addListener(map,'click',function(event) {
-                document.getElementById('latclicked').innerHTML = event.latLng.lat();
-                document.getElementById('longclicked').innerHTML =  event.latLng.lng();
-                latlng =  {lat: parseFloat(event.latLng.lat()), lng: parseFloat(event.latLng.lng())};
-
-                var marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map
-                });
-                markers.push(marker);
-            });
+            markers.push(marker);
+        });
 
 
-            google.maps.event.addListener(map,'mousemove',function(event) {
-                document.getElementById('latmoved').innerHTML = event.latLng.lat();
-                document.getElementById('longmoved').innerHTML = event.latLng.lng();
-            });
+        google.maps.event.addListener(map,'mousemove',function(event) {
+            document.getElementById('latmoved').innerHTML = event.latLng.lat();
+            document.getElementById('longmoved').innerHTML = event.latLng.lng();
+        });
 
-            var geocoder = new google.maps.Geocoder;
-            var infowindow = new google.maps.InfoWindow;
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
 
-            document.getElementById('submit').addEventListener('click', function() {
-                geocodeLatLng(geocoder, map, infowindow);
-            });
+        document.getElementById('submit').addEventListener('click', function() {
+            geocodeLatLng(geocoder, map, infowindow);
+        });
+    }
+    function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+    }
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
         }
-        function deleteMarkers() {
-            clearMarkers();
-            markers = [];
-        }
-        function clearMarkers() {
-            setMapOnAll(null);
-        }
-        function setMapOnAll(map) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
-            }
-        }
+    }
 
-        function geocodeLatLng(geocoder, map, infowindow) {
-            var flag = 0;
-            geocoder.geocode({'location': latlng}, function(results, status) {
-                if (status === 'OK') {
-                    if (results[1]) {
-                        //formatted address
-                        //find country name
-                        for (var i=0; i<results[0].address_components.length; i++) {
-                            for (var b=0;b<results[0].address_components[i].types.length;b++) {
+    function geocodeLatLng(geocoder, map, infowindow) {
+        var flag = 0;
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+                if (results[1]) {
+                    //formatted address
+                    //find country name
+                    for (var i=0; i<results[0].address_components.length; i++) {
+                        for (var b=0;b<results[0].address_components[i].types.length;b++) {
 
-                                //there are different types that might hold a city
-                                if (results[0].address_components[i].types[b] == "locality" || (results[0].address_components[i].types[b] == 'administrative_area_level_1' && flag == 0)) {
-                                    //this is the object you are looking for
-                                    var cityitem= results[0].address_components[i];
-                                    cityName = cityitem.long_name
-                                    document.getElementById('city').innerHTML = cityName;
-                                    flag = 1;
-                                    console.log(city);
-                                    break;
-                                }
+                            //there are different types that might hold a city
+                            if (results[0].address_components[i].types[b] == "locality" || (results[0].address_components[i].types[b] == 'administrative_area_level_1' && flag == 0)) {
+                                //this is the object you are looking for
+                                var cityitem= results[0].address_components[i];
+                                cityName = cityitem.long_name
+                                document.getElementById('searchField').value = cityName;
+                                flag = 1;
+                                break;
                             }
-
                         }
-                    } else {
-                        window.alert('No results found');
+
                     }
                 } else {
-                    window.alert('Geocoder failed due to: ' + status);
+                    window.alert('No results found');
                 }
-            });
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
 
-        }
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=API&callback=initMap">
-    </script>
-    </body>
+    }
 
+    function loading() {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("map-container").style.display = "none";
+    }
 
-
-
-
-
-    <!--map goes here-->
-    <form action="/" method="post">
-
-
-        <a href="/homepage">Search by Keyword instead</a>
-
-    </form>
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGt8I-WSVOxbOiJoWk6wVcmUZh1TpB94&callback=initMap">
+</script>
 
 
-
-</div>
-
-<body>
-
-<div class="topnav">
-    <a href="/logout">Logout</a>
-    <div class="dropdown" style="float:right;">
-        <button class="dropbtn">Profile
-        </button>
-        <div class="dropdown-content">
-            <a href="/">Favorite Locations</a>
-            </select>
-        </div>
-    </div>
-</div>
-
-
-</body>
 <style>
+    div#loading {
+        position: fixed; /* or absolute */
+        top: 30%;
+        left: 44%;
+        width: 400px;
+        height: 400px;
+        background: url("https://loading.io/spinners/pacman/lg.eat-bean-pie-loading-gif.gif") no-repeat;
+        cursor: wait;
+        display:none;
+    }
+
     .testpage
     {
         display: block;
@@ -282,7 +244,6 @@
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
   }
-    
 
     .dropdown-content a {
         display: block;
@@ -302,7 +263,39 @@
         display: block;
     }
 
+         /* Always set the map height explicitly to define the size of the div
+          * element that contains the map. */
+     #map {
+         height: 400px;
+         width: 700px;
+     }
+    #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+    #floating-panel {
+        position: absolute;
+        top: 500px;
+        left: 50%;
+        margin-left: -180px;
+        width: 350px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+    }
+    #latlng {
+        width: 225px;
+    }
 
 </style>
 
-</html>
