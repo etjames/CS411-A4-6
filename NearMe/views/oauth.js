@@ -7,6 +7,11 @@ const express = require('express'),
 
 const User = require('../nearmedb');
 
+const config = require('../config/config');
+
+const GoogleStrategy = require('passport-google-oauth')
+    .OAuth2Strategy;
+
 let bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -50,7 +55,7 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
     if (req.session) {
-       res.redirect('./homepage');
+        res.redirect('./homepage');
     } else {
         res.redirect('./login');
         };
@@ -146,34 +151,22 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function async(req, res, session) {
+app.post('/', function async(req, res) {
   //get user input
   const newsSearch = req.body.searchField;
   let favorite = req.body.favorite;
-  console.log('1.' + session);
-  console.log('2.' + JSON.stringify(req.user));
-  console.log('4.' + req.user);
-
                 if (favorite === "on") {
-                    console.log(session.token);
-                    User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
+                    console.log(user_id);
+                   User.findOneAndUpdate({_id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
                         function (error, success) {
                             if (error) {
                                 console.log('error');
                             } else {
-                                let iddd = User.id;
-                                console.log('id ' + iddd)
                                 console.log(success);
                             }
                         }
                     )
-                /*  var user = {"favorites": newsSearch}
-                        id: profile.id 
-                    })
-                    console.log('smd');
-                    user.update({email: "cheyenne_tipton1@my.vcccd.edu"}, {$push: {favorites: [newsSearch] }});
-                    */
-    };
+                    };
 
   //get date
   const date = new Date();

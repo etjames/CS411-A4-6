@@ -31,12 +31,12 @@ module.exports = function (passport) {
     
             })
             user.save(function(err) {
+                console.log(_id);
                 if (err) console.log(err);
                 return done(err, user);
             })
            }
            else {
-            console.log('lol fuck');
             return done(err, user);
     }
     }

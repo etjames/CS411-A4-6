@@ -62,7 +62,7 @@ app.use(cookieSession({
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-    console.log(req.session.token)
+    console.log(req.session)
     let name = req.body.searchField
     console.log(name);
     //console.log('req.body.name', req.body['name']);
