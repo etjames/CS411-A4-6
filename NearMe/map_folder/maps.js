@@ -1,4 +1,4 @@
-let app = express();
+/* let app = express();
 var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('/maps/map'), {
@@ -10,3 +10,4 @@ function initMap() {
 app.listen(7000, () => {
     console.log('Server is running on port 3000')
 });
+*/

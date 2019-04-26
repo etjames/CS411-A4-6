@@ -133,6 +133,11 @@ function listToString(array) {
     }
     return returnString;
 }
+//for displaying maps search
+app.get('/maps', function (req, res) {
+    const map_page = (path.join(__dirname , '../map_folder' ,'maps.ejs'));
+    res.render(map_page);
+  })
 
 //for displaying homepage
 app.get('/', function (req, res) {
@@ -141,17 +146,34 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function async(req, res, profile) {
+app.post('/', function async(req, res) {
   //get user input
-  //var elementCheckBox = window.document.getElementById("favorite");
   const newsSearch = req.body.searchField;
   let favorite = req.body.favorite;
-  User.findOne({'id': profile.id}, 
-        function(err, user, token) {
+  console.log('1.' + JSON.stringify(req.body));
+ // console.log('2.' + JSON.stringify(id));
+  User.findOne({'id': '104214512358091751864'}, 
+        function(err, user) {
+            console.log('3.');
+            console.log('4.');
+           // console.log('5.' + profile.id);
             if (favorite === "on") {
-                console.log('smd')
-                User.update({email: "ctipton@bu.edu"}, {$push: {favorites: "Boston"}})
-                
+                console.log("ho ");
+                User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
+                    function (error, success) {
+                        if (error) {
+                            console.log('error');
+                        } else {
+                            console.log(success);
+                        }
+                    }
+                )
+               /*  var user = {"favorites": newsSearch}
+                    id: profile.id 
+                })
+                console.log('smd');
+                user.update({email: "cheyenne_tipton1@my.vcccd.edu"}, {$push: {favorites: [newsSearch] }});
+                */
   }});
 
   //get date
