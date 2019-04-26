@@ -236,6 +236,7 @@ app.post('/', function async(req, res, session) {
                       // 1) location 2) organization 3) person 4) keywords
                       let twitterQuery1 = "" + newsSearch + ", "; //we start with just the city
                       let twitterQuery2 = "" + newsSearch + ", "; //this one will not have any keywords
+                      let twitterQuery3 = "" + newsSearch + ", ";
                       if (response.entities != undefined) {
                           if (response.entities['organization'] != undefined) {
                               twitterQuery1 += response.entities['organization'][0] + ", ";
@@ -247,6 +248,7 @@ app.post('/', function async(req, res, session) {
                           }
                           if (response.entities['keyword'] != undefined) {
                               twitterQuery1 += response.entities['keyword'][0];
+                              twitterQuery3 +=response.entities['keyword'][0];
                           }
                           //db_print("twitterQuery2 is: " + twitterQuery2);
                       }
