@@ -27,7 +27,7 @@ module.exports = function (passport) {
                 id: profile.id,
                 name: profile.displayName,
                 email: profile.emails[0].value,
-                favorites: [] 
+                favorites: null
     
             })
             user.save(function(err) {

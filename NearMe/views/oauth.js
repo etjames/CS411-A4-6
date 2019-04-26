@@ -6,7 +6,6 @@ const express = require('express'),
     cookieSession = require('cookie-session');
 
 const User = require('../nearmedb');
-//const map_page = require('../map_folder/maps.ejs');
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -136,7 +135,6 @@ function listToString(array) {
 }
 //for displaying maps search
 app.get('/maps', function (req, res) {
-    console.log('yoooo');
     const map_page = (path.join(__dirname , '../map_folder' ,'maps.ejs'));
     res.render(map_page);
   })
@@ -148,19 +146,23 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function async(req, res, profile) {
+app.post('/', function async(req, res) {
   //get user input
-  //var elementCheckBox = window.document.getElementById("favorite");
   const newsSearch = req.body.searchField;
   let favorite = req.body.favorite;
-  User.findOne({'id': profile.id}, 
-        function(err, user, token) {
+  console.log('1.' + JSON.stringify(req.body));
+ // console.log('2.' + JSON.stringify(id));
+  User.findOne({'id': '104214512358091751864'}, 
+        function(err, user) {
+            console.log('3.');
+            console.log('4.');
+           // console.log('5.' + profile.id);
             if (favorite === "on") {
-                console.log("ho " + token);
-                User.update({id: profile.id }, { $push: { favorites: newsSearch  } },
+                console.log("ho ");
+                User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
                     function (error, success) {
                         if (error) {
-                            console.log(error);
+                            console.log('error');
                         } else {
                             console.log(success);
                         }
