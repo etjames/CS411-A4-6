@@ -146,35 +146,34 @@ app.get('/', function (req, res) {
 })
 
 //for responding to query, calls news api and puts callback into query.ejs
-app.post('/', function async(req, res) {
+app.post('/', function async(req, res, session) {
   //get user input
   const newsSearch = req.body.searchField;
   let favorite = req.body.favorite;
-  console.log('1.' + JSON.stringify(req.body));
- // console.log('2.' + JSON.stringify(id));
-  User.findOne({'id': '104214512358091751864'}, 
-        function(err, user) {
-            console.log('3.');
-            console.log('4.');
-           // console.log('5.' + profile.id);
-            if (favorite === "on") {
-                console.log("ho ");
-                User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
-                    function (error, success) {
-                        if (error) {
-                            console.log('error');
-                        } else {
-                            console.log(success);
+  console.log('1.' + session);
+  console.log('2.' + JSON.stringify(req.user));
+  console.log('4.' + req.user);
+
+                if (favorite === "on") {
+                    console.log(session.token);
+                    User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
+                        function (error, success) {
+                            if (error) {
+                                console.log('error');
+                            } else {
+                                let iddd = User.id;
+                                console.log('id ' + iddd)
+                                console.log(success);
+                            }
                         }
-                    }
-                )
-               /*  var user = {"favorites": newsSearch}
-                    id: profile.id 
-                })
-                console.log('smd');
-                user.update({email: "cheyenne_tipton1@my.vcccd.edu"}, {$push: {favorites: [newsSearch] }});
-                */
-  }});
+                    )
+                /*  var user = {"favorites": newsSearch}
+                        id: profile.id 
+                    })
+                    console.log('smd');
+                    user.update({email: "cheyenne_tipton1@my.vcccd.edu"}, {$push: {favorites: [newsSearch] }});
+                    */
+    };
 
   //get date
   const date = new Date();
