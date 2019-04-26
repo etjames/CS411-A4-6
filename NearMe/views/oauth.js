@@ -156,8 +156,7 @@ app.post('/', function async(req, res) {
   const newsSearch = req.body.searchField;
   let favorite = req.body.favorite;
                 if (favorite === "on") {
-                    console.log(user_id);
-                   User.findOneAndUpdate({_id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
+                   User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
                         function (error, success) {
                             if (error) {
                                 console.log('error');
