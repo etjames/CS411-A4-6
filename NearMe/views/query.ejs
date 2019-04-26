@@ -41,9 +41,9 @@
                             </div>
                         </div>
 
-                        <div class="twitter-hide-button">
+                        <div class="twitter-hide-button" onclick="hideTweets(this.nextElementSibling)">
                             <label for="showHide"><h3 id="tweet-label">Tweets</h3></label>
-                            <input id="hide-button" type="submit" value="v" onclick="hideTweets(this.parentNode.nextElementSibling)">
+                            <input id="hide-button" type="submit" value="v">
                         </div>
                         <div class="tweet-content" >
                             <% article.tweets.forEach(function(tweet, index){ %>
