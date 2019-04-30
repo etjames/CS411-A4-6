@@ -1,11 +1,11 @@
 const express = require('express'),
     app = express(),
     passport = require('passport'),
-    auth = require('./auth'),
+    auth = require('../oauth/auth'),
     cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session');
 
-const User = require('../nearmedb');
+const User = require('../database/nearmedb');
 
 const config = require('../config/config');
 
@@ -26,27 +26,22 @@ const connection = mongoose.connection;
 
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
-}); 
+});
 
 auth(passport);
 app.use(passport.initialize());
 
 app.set('view engine', 'ejs');
 
-
-app.get('/login',
-  function(req, res){
-    res.render('../login');
-  });
-
-  app.get('/homepage',
-  function(req, res){
-    res.render('../homepage');
-  });
+app.get('/',
+    function(req, res){
+    console.log("using this...");
+        res.render('../views/login');
+    });
 
 app.use(cookieSession({
     name: 'session',
-    keys: ['fuh4t87yrhfu4'],
+    keys: ['fuh4t87yrhfu4'], //TODO: hide this.
     maxAge: 24 * 60 * 60 * 1000
 }));
 app.use(cookieParser());
@@ -54,16 +49,18 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
     if (req.session) {
+        console.log("in here");
         res.redirect('./homepage');
     } else {
         res.redirect('./login');
-        };
+    };
 });
 
 app.get('/logout', (req, res) => {
+    console.log("trying to log out..");
     req.logout();
     req.session = null;
-    res.redirect('/login');
+    res.render('../views/login');
 });
 
 app.get('/auth/google', passport.authenticate('google', {
@@ -81,6 +78,4 @@ app.get('/auth/google/redirect',
     }
 );
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+module.exports = app;

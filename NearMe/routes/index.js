@@ -8,4 +8,10 @@ router.get('/', function(req, res, next) {
   res.render(homepagePath);
 });
 
+/* GET homepage (same thing) */
+router.get('/homepage', function(req, res, next) {
+  const homepagePath = (path.join(__dirname , '../views' ,'homepage.ejs'));
+  res.render(homepagePath);
+});
+
 module.exports = router;

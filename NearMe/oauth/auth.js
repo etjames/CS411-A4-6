@@ -1,7 +1,7 @@
-const GoogleStrategy = require('passport-google-oauth')
+const GoogleStrategy = require('passport-google-oauth/lib')
     .OAuth2Strategy;
 const config = require('../config/config'); 
-const User = require('../nearmedb');
+const User = require('../database/nearmedb');
 
 module.exports = function (passport) {
     passport.serializeUser((user, done) => {
@@ -13,13 +13,13 @@ module.exports = function (passport) {
 
     passport.use(
         new GoogleStrategy({
-            callbackURL: '/auth/google/redirect',
+            callbackURL: '../login/auth/google/redirect',
             clientID: config.google.clientID,
             clientSecret: config.google.clientSecret
     }, (token, refreshToken, profile, done) => {
-        console.log(profile.emails[0].value);
-        console.log(token);
-        console.log(profile.id);
+        //console.log(profile.emails[0].value);
+        //console.log(token);
+        //console.log(profile.id);
         User.findOne({'id': profile.id}, 
         function(err, user) {
            if (!user) {
@@ -38,10 +38,9 @@ module.exports = function (passport) {
            }
            else {
             return done(err, user);
-    }
-    }
-        )
+           }
+        })
 }
         )
    );
-    }
+}
