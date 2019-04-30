@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//var usersRouter = require('./routes/users');
+var loginRouter = require('./views/login');
+var mapsRouter = require('./map_folder/maps.js');
 
 var app = express();
 
@@ -20,7 +22,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/maps', mapsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,11 +42,24 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.set('views', path.join(__dirname, '/views'));
+app.set('maps', path.join(__dirname, '/map_folder'));
+//app.set('maps', path.join(__dirname, '/map_folder'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+
 //from the slides
-var serverParams = require('config.js')('./config/config.json');
-app.set('serverParams', serverParams.server);
+//var serverParams = require('config.json')('./config/config.json');
+//app.set('serverParams', serverParams.server);
 
 //set up encryption key for sessions
-app.use(session({secret: serverParams.server.sessionSecret}));
+//app.use(session({secret: serverParams.server.sessionSecret}));
+
+
 
 module.exports = app;
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
