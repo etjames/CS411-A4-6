@@ -1,10 +1,9 @@
-var express = require('express');
+let express = require('express');
 let path = require('path');
-var router = express.Router();
+let router = express.Router();
 
-/* GET home page. */
+/* GET homepage. */
 router.get('/', function(req, res, next) {
-  //res.render('index', { title: 'Express' });
   const homepagePath = (path.join(__dirname , '../views' ,'homepage.ejs'));
   res.render(homepagePath);
 });

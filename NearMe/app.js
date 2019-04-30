@@ -5,9 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
-var loginRouter = require('./views/login');
-var mapsRouter = require('./map_folder/maps.js');
+var apiRouter = require('./routes/apiCalls');
+//var loginRouter = require('./views/login');
+var mapsRouter = require('./routes/maps.js');
 
 var app = express();
 
@@ -22,8 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-app.use('/login', loginRouter);
+app.use('/', apiRouter);
+//app.use('/login', loginRouter);
 app.use('/maps', mapsRouter);
 
 // catch 404 and forward to error handler
@@ -55,8 +55,6 @@ app.set('view engine', 'ejs');
 
 //set up encryption key for sessions
 //app.use(session({secret: serverParams.server.sessionSecret}));
-
-
 
 module.exports = app;
 
