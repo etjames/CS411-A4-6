@@ -17,9 +17,6 @@ module.exports = function (passport) {
             clientID: config.google.clientID,
             clientSecret: config.google.clientSecret
     }, (token, refreshToken, profile, done) => {
-        console.log(profile.emails[0].value);
-        console.log(token);
-        console.log(profile.id);
         User.findOne({'id': profile.id}, 
         function(err, user) {
            if (!user) {
@@ -45,3 +42,4 @@ module.exports = function (passport) {
         )
    );
     }
+

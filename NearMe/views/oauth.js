@@ -7,6 +7,7 @@ const express = require('express'),
 
 const User = require('../nearmedb');
 
+
 const config = require('../config/config');
 
 const GoogleStrategy = require('passport-google-oauth')
