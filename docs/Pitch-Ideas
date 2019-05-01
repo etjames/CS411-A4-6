@@ -1,7 +1,7 @@
 Group A4-6
 Pitch Ideas
 
-IDEA 1: Twitter, Google Maps, News API
+IDEA 1: Twitter, Google Maps, News API  -- Our Chosen Idea
 
 Quick Look: 
 Map →  Click on a place → Shows news about the area and a twitter feed with hashtags related to said news story
@@ -10,11 +10,12 @@ Proposal:
 	For our primary idea, we would like to combine social media and news media. 
 	Specifically, we would like to use Google Maps location along with Twitter and a news API.
 	The user would be able to visualize areas on the map. From there, the user could select a specific area of focus. 
+	Adiitionally, they could use a key word search rather than the map selection if they prefer.
 	This could be their hometown, a place they are planning on vacationing, or maybe just checking in on the city a 
 	friend lives in. Following the user selection, the information from the news API would provide a variety of 
 	news stories and anecdotes about the area- their hardships, their triumphs. These news stories would then 
-	further be paired with tweets containing hashtags about the news, so that the user can get an idea of how the 
-	general population is reacting to the happenings. This idea would be helpful for gaining information about the 
+	further be paired with tweets containing the key words from the news stories, so that the user can get an idea of 
+	how the general population is reacting to the happenings. This idea would be helpful for gaining information about the 
 	goings on in different locations.
 
 IDEA 2: Linkedin, News API
