@@ -75,18 +75,29 @@ app.get('/auth/google', passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
 }));
 
-app.get('/auth/google/redirect',
-    function(req, res){
-        console.log("using this...");
-        res.render('../views/homepage');
-    });
+app.get('/auth/google/redirect', (req, res) => {
+    passport.authenticate('local',
+        { successRedirect: '../views/homepage',
+            failureRedirect: '../views/login'},
+        function(err, user, info) {
+            console.log("callback function called");
+            if (err) { return err; }
+            if (!user) { res.render('/login'); }
+            req.logIn(user, function(err) {
+                if (err) { return err; }
+                res.render('/views/homepage');
+            });
+        }
+
+    );
+    res.render('../views/homepage');
+});
 
 app.get('/auth/google/redirect',
     passport.authenticate('google', {
         failureRedirect: '../views/login'}),
     (req, res) => {
         req.session.token = req.user.token;
-        console.log('hi look below')
         console.log(req.user.token);
         res.redirect('../views/homepage');
     }
