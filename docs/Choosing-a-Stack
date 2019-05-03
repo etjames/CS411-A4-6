@@ -4,7 +4,7 @@ For our group, we have decided on node.js, JavaScript, and ejs as the main suppo
 
 We considered using Python as many of us know the language already, however with Python we would be unable to 
 use the same structure for front end and back end. Additionally, we did want to expand our horizons more and 
-therefore wanted to look into alternatives.
+therefore, wanted to look into alternatives.
 
 Coincidentally, two of our group members are utilizing node.js for another class of theirs. This made it so that
 they had some baseline knowledge so our group was not completely starting from scratch, and yet at the same time 
