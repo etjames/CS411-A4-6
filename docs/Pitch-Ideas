@@ -10,7 +10,7 @@ Proposal:
 	For our primary idea, we would like to combine social media and news media. 
 	Specifically, we would like to use Google Maps location along with Twitter and a news API.
 	The user would be able to visualize areas on the map. From there, the user could select a specific area of focus. 
-	Adiitionally, they could use a key word search rather than the map selection if they prefer.
+	Additionally, they could use a key word search rather than the map selection if they prefer.
 	This could be their hometown, a place they are planning on vacationing, or maybe just checking in on the city a 
 	friend lives in. Following the user selection, the information from the news API would provide a variety of 
 	news stories and anecdotes about the area- their hardships, their triumphs. These news stories would then 
