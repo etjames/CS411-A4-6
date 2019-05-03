@@ -2,5 +2,5 @@ Group A4-6
 User Story 4
 
 4) As a logged-in user, I should be able to log out. If logged in, a user can click on the log out button in the top left
-corner of the page in order to log out of their google account. Additionally, this will make it so that the user is then 
+corner of the page in order to log out of our site. Additionally, this will make it so that the user is then 
 redirected to the login page again.
