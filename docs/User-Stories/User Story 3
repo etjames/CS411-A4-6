@@ -2,6 +2,5 @@ Group A4-6
 User Story 3
 
 3)As a logged-in user, I should be able to favorite my frequent cities. As a user, after typing in my favorite city
-into the search bar, I should be able to then save it to my favorite locations for easy access in the future. 
-I can do so by clicking a checkbox next to the search bar. When I search, it will then be added to a favorites 
-list on on the side-bar of my account.
+into the search bar, I should be able to then save it to my favorite locations. I can do so by clicking a checkbox next to the search bar. When I search, it will then be added to a favorites 
+list in the database for my account.
