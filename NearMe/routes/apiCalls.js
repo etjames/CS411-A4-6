@@ -4,6 +4,7 @@ let path = require('path');
 let app = express();
 let request = require('request');
 let util = require('util');
+const User = require('../database/nearmedb');
 
 
 //for turning on/off printing easily
@@ -49,26 +50,26 @@ app.set('view engine', 'ejs')
 //for responding to query, calls news api and puts callback into query.ejs
 app.post('/', function async(req, res) {
     //get user input
+    let id =req.user.id;
     const newsSearch = req.body.searchField;
     let favorite = req.body.favorite;
     if (favorite === "on") {
-        User.findOneAndUpdate({id: '104214512358091751864'}, { $push: { favorites: newsSearch  } },
+        User.findOneAndUpdate({id: id}, { $push: { favorites: newsSearch  } },
             function (error, success) {
                 if (error) {
-                    console.log('error');
+                    console.log(error);
                 } else {
                     console.log(success);
                 }
             }
         )
-    };
+    }; 
 
     //get date
     const date = new Date();
     const year = date.getFullYear();
     const day = date.getDate();
     const month = date.getMonth() + 1; //starts at 0 for january
-    db_print("Today is " + year + "-" + month  + "-" + day);
 
     let newsURL = 'https://newsapi.org/v2/everything?q=' + newsSearch +
         '&from='  + year + '-' + month  + '-' + day +  '&apiKey=' + news_api_key;
@@ -82,9 +83,6 @@ app.post('/', function async(req, res) {
 
         // Json parse article content
         let content = JSON.parse(data.body);
-
-        //now we use the aylien api to get keywords
-        db_print("Using aylien api now...");
 
         // NUMBER OF ARTICLES DISPLAYED
         const DISPLAY_ARTICLE_COUNT = 5;
@@ -142,7 +140,6 @@ app.post('/', function async(req, res) {
                             let tweetResults = [];
                             let tweetsGotten = 0;
                             for (let tweetIndex in tweetsList) {
-                                //db_print(tweetsList[tweetIndex]);
                                 let userTweet = { screenName: tweetsList[tweetIndex].user.screen_name,
                                     name: tweetsList[tweetIndex].user.name,
                                     text: tweetsList[tweetIndex].text,
@@ -159,7 +156,6 @@ app.post('/', function async(req, res) {
                                 tweetResults.push("No tweets found.");
                             }
 
-                            //db_print(content.articles);
                             let curArticleResult = {
                                 articleName: content.articles[articleCount].title,
                                 articleTagline: content.articles[articleCount].description,
@@ -171,7 +167,6 @@ app.post('/', function async(req, res) {
 
                             }
 
-                            //db_print("The twitter results are: " + tweetResults);
                             articles.push(curArticleResult);
 
                             // timeout to await results
@@ -188,8 +183,6 @@ app.post('/', function async(req, res) {
         // After all promises fulfilled, then send results.
         Promise.all(promises)
             .then(function(){
-                //db_print("Results are: " );
-                //db_print(articles);
                 const queryPath = (path.join(__dirname , '../views' ,'query.ejs'));
                 res.render(queryPath, {articles: articles, cityQuery: newsSearch});})
             .catch(function() { console.log("error")} );
