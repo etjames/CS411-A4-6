@@ -4,5 +4,5 @@ User Story 1
 1) As a new user, I should be able to log in using an already existing Google account.  When a new user wants to try our 
 app, they should be prompted to a login page where they can login with Google. Following this, they will be prompted 
 to enter their Google credentials. If they are entered correctly, they will be taken to the homepage, which features a 
-text search bar as well as the option to instead search by map. If the fail to enter their credentials, they will be 
+text search bar as well as the option to instead search by map. If they fail to enter their credentials, they will be 
 prompted to try again. 
