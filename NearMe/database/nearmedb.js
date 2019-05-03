@@ -21,7 +21,7 @@ userSchema.methods.updateUser = function(request, response){
 	 this.user.save();
 	response.redirect('/user');
 };
-
+ 
 
 
 module.exports = mongoose.model('User', userSchema);
