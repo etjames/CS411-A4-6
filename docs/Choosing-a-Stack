@@ -1,6 +1,6 @@
 How we chose our technology stack:
 
-For our group, we have decided on node.js, JavaScript, and HTML as the main supports for our project. 
+For our group, we have decided on node.js, JavaScript, and ejs as the main supports for our project. 
 
 We considered using Python as many of us know the language already, however with Python we would be unable to 
 use the same structure for front end and back end. Additionally, we did want to expand our horizons more and 
@@ -13,7 +13,7 @@ to match up easier and all be in a consistent format.
 
 So far, we have found it relatively easy to understand and get used to, and there are many resources out there 
 to aid in our work. We have used many internet resources to give us information about writing the code such as the
-expressjs website, code burst, and more.  We have additionaly been using other items such as pug, json ,and ejs 
+expressjs website, code burst, and more.  We have additionaly been using other items such as json and pre-existing ejs 
 templates to help support our work. 
 
 We hope as our work continues on we will continue to find ways in which we can use these resources to better our 

@@ -1,7 +1,6 @@
 Group A4-6
 User Story 4
 
-4) As a logged-in user, I should be able to get updates on new news. If I have favorited cities as stated in part 3, 
-I should be able to get new notifications when big events happen in the area. By default, I should receive a daily rundown 
-but I can change my settings to be more often updates if I like. There will be an audible chime and a box will pop up in 
-the top right corner containing information about the news stories.
+4) As a logged-in user, I should be able to log out. If logged in, a user can click on the log out button in the top left
+corner of the page in order to log out of their google account. Additionally, this will make it so that the user is then 
+redirected to the login page again.
